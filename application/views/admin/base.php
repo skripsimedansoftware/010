@@ -232,30 +232,22 @@ desired effect
 				</div>
 			</div>
 
-			<!-- search form (Optional) -->
-			<form action="#" method="get" class="sidebar-form">
-				<div class="input-group">
-					<input type="text" name="q" class="form-control" placeholder="Search...">
-					<span class="input-group-btn">
-						<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-					</span>
-				</div>
-			</form>
-			<!-- /.search form -->
-
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu" data-widget="tree">
 				<li class="header">HEADER</li>
 				<!-- Optionally, you can add icons to the links -->
 				<li class="<?= $this->router->fetch_method() == 'index'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
+				<li class="<?= $this->router->fetch_method() == 'laporan_krimal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_krimal') ?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
 				<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
 				<li class="treeview">
-					<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+					<a href="#"><i class="fa fa-link"></i> <span>Data</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#">Link in level 2</a></li>
-						<li><a href="#">Link in level 2</a></li>
+						<li><a href="<?= base_url($this->router->fetch_class().'/desa') ?>">Desa</a></li>
+						<li><a href="<?= base_url($this->router->fetch_class().'/dusun') ?>">Dusun</a></li>
+						<li><a href="<?= base_url($this->router->fetch_class().'/tkp') ?>">TKP</a></li>
+						<li><a href="<?= base_url($this->router->fetch_class().'/jalan') ?>">Jalan</a></li>
 					</ul>
 				</li>
 			</ul>

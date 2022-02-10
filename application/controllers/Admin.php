@@ -151,6 +151,315 @@ class Admin extends CI_Controller {
 		}
 	}
 
+	public function laporan_kriminal()
+	{
+
+	}
+
+	public function desa($id = NULL, $option = 'view')
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->router->fetch_method() == 'post')
+				{
+					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array();
+						$this->desa->create($data);
+						$this->session->set_flashdata('update', 'Data desa berhasil ditambahkan');
+					}
+					else
+					{
+						$this->template->load('desa/add');
+					}
+				}
+				else
+				{
+					$this->template->load('desa/add');
+				}
+			break;
+
+			case 'edit':
+				if (!empty($id))
+				{
+					$detail = $this->desa->read(array('id' => $id));
+
+					if (!empty($detail))
+					{
+						if ($this->router->fetch_method() == 'post')
+						{
+							$data = array();
+							$this->desa->update($data, array('id' => $id));
+							$this->session->set_flashdata('update', 'Data desa telah diperbaharui');
+							redirect(base_url($this->router->fetch_class().'/desa'), 'refresh');
+						}
+						else
+						{
+							$data['data'] = $detail;
+							$this->template->load('desa/edit', $data);
+						}
+					}
+					else
+					{
+						$this->show_error(404, 'Data Tidak Ditemukan');
+					}
+				}
+				else
+				{
+					$this->show_error(404, 'Data Tidak Ditemukan', 'Data desa tidak ditemukan');
+				}
+			break;
+
+			case 'delete':
+				if (!empty($id))
+				{
+					$this->desa->delete(array('id' => $id));
+					$this->session->set_flashdata('update', 'Data desa berhasil dihapus');
+					redirect(base_url($this->router->fetch_class().'/data_desa'), 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('update', 'Data desa tidak ditemukan');
+					redirect(base_url($this->router->fetch_class().'/data_desa'), 'refresh');
+				}
+			break;
+
+			default:
+				$this->template->load('desa/home', $data);
+			break;
+		}
+	}
+
+	public function dusun($id = NULL, $option = 'view')
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->router->fetch_method() == 'post')
+				{
+					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array();
+						$this->dusun->create($data);
+						$this->session->set_flashdata('update', 'Data dusun berhasil ditambahkan');
+					}
+					else
+					{
+						$this->template->load('dusun/add');
+					}
+				}
+				else
+				{
+					$this->template->load('dusun/add');
+				}
+			break;
+
+			case 'edit':
+				if (!empty($id))
+				{
+					$detail = $this->dusun->read(array('id' => $id));
+
+					if (!empty($detail))
+					{
+						if ($this->router->fetch_method() == 'post')
+						{
+							$data = array();
+							$this->dusun->update($data, array('id' => $id));
+							$this->session->set_flashdata('update', 'Data dusun telah diperbaharui');
+							redirect(base_url($this->router->fetch_class().'/dusun'), 'refresh');
+						}
+						else
+						{
+							$data['data'] = $detail;
+							$this->template->load('dusun/edit', $data);
+						}
+					}
+					else
+					{
+						$this->show_error(404, 'Data Tidak Ditemukan');
+					}
+				}
+				else
+				{
+					$this->show_error(404, 'Data Tidak Ditemukan', 'Data dusun tidak ditemukan');
+				}
+			break;
+
+			case 'delete':
+				if (!empty($id))
+				{
+					$this->dusun->delete(array('id' => $id));
+					$this->session->set_flashdata('update', 'Data dusun berhasil dihapus');
+					redirect(base_url($this->router->fetch_class().'/data_dusun'), 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('update', 'Data dusun tidak ditemukan');
+					redirect(base_url($this->router->fetch_class().'/data_dusun'), 'refresh');
+				}
+			break;
+
+			default:
+				$this->template->load('dusun/home', $data);
+			break;
+		}
+	}
+
+	public function tkp($id = NULL, $option = 'view')
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->router->fetch_method() == 'post')
+				{
+					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array();
+						$this->tkp->create($data);
+						$this->session->set_flashdata('update', 'Data tkp berhasil ditambahkan');
+					}
+					else
+					{
+						$this->template->load('tkp/add');
+					}
+				}
+				else
+				{
+					$this->template->load('tkp/add');
+				}
+			break;
+
+			case 'edit':
+				if (!empty($id))
+				{
+					$detail = $this->tkp->read(array('id' => $id));
+
+					if (!empty($detail))
+					{
+						if ($this->router->fetch_method() == 'post')
+						{
+							$data = array();
+							$this->tkp->update($data, array('id' => $id));
+							$this->session->set_flashdata('update', 'Data tkp telah diperbaharui');
+							redirect(base_url($this->router->fetch_class().'/tkp'), 'refresh');
+						}
+						else
+						{
+							$data['data'] = $detail;
+							$this->template->load('tkp/edit', $data);
+						}
+					}
+					else
+					{
+						$this->show_error(404, 'Data Tidak Ditemukan');
+					}
+				}
+				else
+				{
+					$this->show_error(404, 'Data Tidak Ditemukan', 'Data tkp tidak ditemukan');
+				}
+			break;
+
+			case 'delete':
+				if (!empty($id))
+				{
+					$this->tkp->delete(array('id' => $id));
+					$this->session->set_flashdata('update', 'Data tkp berhasil dihapus');
+					redirect(base_url($this->router->fetch_class().'/data_tkp'), 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('update', 'Data tkp tidak ditemukan');
+					redirect(base_url($this->router->fetch_class().'/data_tkp'), 'refresh');
+				}
+			break;
+
+			default:
+				$this->template->load('tkp/home', $data);
+			break;
+		}
+	}
+
+	public function jalan($id = NULL, $option = 'view')
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->router->fetch_method() == 'post')
+				{
+					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array();
+						$this->jalan->create($data);
+						$this->session->set_flashdata('update', 'Data jalan berhasil ditambahkan');
+					}
+					else
+					{
+						$this->template->load('jalan/add');
+					}
+				}
+				else
+				{
+					$this->template->load('jalan/add');
+				}
+			break;
+
+			case 'edit':
+				if (!empty($id))
+				{
+					$detail = $this->jalan->read(array('id' => $id));
+
+					if (!empty($detail))
+					{
+						if ($this->router->fetch_method() == 'post')
+						{
+							$data = array();
+							$this->jalan->update($data, array('id' => $id));
+							$this->session->set_flashdata('update', 'Data jalan telah diperbaharui');
+							redirect(base_url($this->router->fetch_class().'/jalan'), 'refresh');
+						}
+						else
+						{
+							$data['data'] = $detail;
+							$this->template->load('jalan/edit', $data);
+						}
+					}
+					else
+					{
+						$this->show_error(404, 'Data Tidak Ditemukan');
+					}
+				}
+				else
+				{
+					$this->show_error(404, 'Data Tidak Ditemukan', 'Data jalan tidak ditemukan');
+				}
+			break;
+
+			case 'delete':
+				if (!empty($id))
+				{
+					$this->jalan->delete(array('id' => $id));
+					$this->session->set_flashdata('update', 'Data jalan berhasil dihapus');
+					redirect(base_url($this->router->fetch_class().'/data_jalan'), 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('update', 'Data jalan tidak ditemukan');
+					redirect(base_url($this->router->fetch_class().'/data_jalan'), 'refresh');
+				}
+			break;
+
+			default:
+				$this->template->load('jalan/home', $data);
+			break;
+		}
+	}
+
 	public function is_owned_data($val, $str)
 	{
 		$str = explode('.', $str);
