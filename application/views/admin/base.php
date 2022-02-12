@@ -19,7 +19,7 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<!-- Google Font -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
 	<style type="text/css">
 	.help-block.error {
 		color: red;
@@ -54,7 +54,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="sidebar-mini hold-transition skin-blue fixed">
+<body class="sidebar-mini hold-transition skin-green fixed">
 <div class="wrapper">
 
 	<!-- Main Header -->
@@ -77,93 +77,6 @@ desired effect
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<!-- Messages: style can be found in dropdown.less-->
-					<li class="dropdown messages-menu">
-						<!-- Menu toggle button -->
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-envelope-o"></i>
-							<span class="label label-success">4</span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="header">You have 4 messages</li>
-							<li>
-								<!-- inner menu: contains the messages -->
-								<ul class="menu">
-									<li><!-- start message -->
-										<a href="#">
-											<div class="pull-left">
-												<!-- User Image -->
-												<img src="<?= (!empty($user->photo))?base_url('uploads/'.$user->photo):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image">
-											</div>
-											<!-- Message title and timestamp -->
-											<h4>Support Team<small><i class="fa fa-clock-o"></i> 5 mins</small></h4>
-											<!-- The message -->
-											<p>Why not buy a new awesome theme?</p>
-										</a>
-									</li>
-									<!-- end message -->
-								</ul>
-								<!-- /.menu -->
-							</li>
-							<li class="footer"><a href="#">See All Messages</a></li>
-						</ul>
-					</li>
-					<!-- /.messages-menu -->
-
-					<!-- Notifications Menu -->
-					<li class="dropdown notifications-menu">
-						<!-- Menu toggle button -->
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-bell-o"></i>
-							<span class="label label-warning">10</span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="header">You have 10 notifications</li>
-							<li>
-								<!-- Inner Menu: contains the notifications -->
-								<ul class="menu">
-									<li><!-- start notification -->
-										<a href="#"><i class="fa fa-users text-aqua"></i> 5 new members joined today</a>
-									</li>
-									<!-- end notification -->
-								</ul>
-							</li>
-							<li class="footer"><a href="#">View all</a></li>
-						</ul>
-					</li>
-					<!-- Tasks Menu -->
-					<li class="dropdown tasks-menu">
-						<!-- Menu Toggle Button -->
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-flag-o"></i>
-							<span class="label label-danger">9</span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="header">You have 9 tasks</li>
-							<li>
-								<!-- Inner menu: contains the tasks -->
-								<ul class="menu">
-									<li><!-- Task item -->
-										<a href="#">
-											<!-- Task title and progress text -->
-											<h3>Design some buttons <small class="pull-right">20%</small></h3>
-											<!-- The progress bar -->
-											<div class="progress xs">
-												<!-- Change the css width attribute to simulate progress -->
-												<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-													<span class="sr-only">20% Complete</span>
-												</div>
-											</div>
-										</a>
-									</li>
-									<!-- end task item -->
-								</ul>
-							</li>
-							<li class="footer">
-								<a href="#">View all tasks</a>
-							</li>
-						</ul>
-					</li>
 					<!-- User Account Menu -->
 					<li class="dropdown user user-menu">
 						<!-- Menu Toggle Button -->
@@ -177,39 +90,19 @@ desired effect
 							<!-- The user image in the menu -->
 							<li class="user-header">
 								<img src="<?= (!empty($user->photo))?base_url('uploads/'.$user->photo):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image">
-								<p>
-									<?= $user->full_name ?> - Web Developer
-									<small>Member since Nov. 2012</small>
-								</p>
-							</li>
-							<!-- Menu Body -->
-							<li class="user-body">
-								<div class="row">
-									<div class="col-xs-4 text-center">
-										<a href="#">Followers</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Sales</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Friends</a>
-									</div>
-								</div>
-								<!-- /.row -->
+								<p><?= $user->full_name ?> - Admin</p>
 							</li>
 							<!-- Menu Footer-->
 							<li class="user-footer">
 								<div class="pull-left">
-									<a href="<?= base_url($this->router->fetch_class().'/profile') ?>" class="btn btn-default btn-flat">Profile</a>
+									<a href="<?= base_url($this->router->fetch_class().'/profile') ?>" class="btn btn-default btn-flat">Profil</a>
 								</div>
 								<div class="pull-right">
-									<a href="<?= base_url($this->router->fetch_class().'/logout') ?>" class="btn btn-default btn-flat">Sign out</a>
+									<a href="<?= base_url($this->router->fetch_class().'/logout') ?>" class="btn btn-default btn-flat">Keluar</a>
 								</div>
 							</li>
 						</ul>
 					</li>
-					<!-- Control Sidebar Toggle Button -->
-					<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -234,20 +127,19 @@ desired effect
 
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu" data-widget="tree">
-				<li class="header">HEADER</li>
+				<li class="header">MENU</li>
 				<!-- Optionally, you can add icons to the links -->
-				<li class="<?= $this->router->fetch_method() == 'index'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
-				<li class="<?= $this->router->fetch_method() == 'laporan_krimal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_krimal') ?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
-				<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-				<li class="treeview">
-					<a href="#"><i class="fa fa-link"></i> <span>Data</span>
+				<li class="<?= $this->router->fetch_method() == 'index'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
+				<li class="<?= $this->router->fetch_method() == 'laporan_krimal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_krimal') ?>"><i class="fa fa-file"></i> <span>Laporan Kriminal</span></a></li>
+				<li class="treeview <?= in_array($this->router->fetch_method(), ['desa', 'dusun', 'jalan', 'tkp'])?'active':'' ?>">
+					<a href="#"><i class="fa fa-database"></i> <span>Data</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="<?= base_url($this->router->fetch_class().'/desa') ?>">Desa</a></li>
-						<li><a href="<?= base_url($this->router->fetch_class().'/dusun') ?>">Dusun</a></li>
-						<li><a href="<?= base_url($this->router->fetch_class().'/tkp') ?>">TKP</a></li>
-						<li><a href="<?= base_url($this->router->fetch_class().'/jalan') ?>">Jalan</a></li>
+						<li class="<?= $this->router->fetch_method() == 'desa'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/desa') ?>">Desa</a></li>
+						<li class="<?= $this->router->fetch_method() == 'dusun'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/dusun') ?>">Dusun</a></li>
+						<li class="<?= $this->router->fetch_method() == 'jalan'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jalan') ?>">Jalan</a></li>
+						<li class="<?= $this->router->fetch_method() == 'tkp'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/tkp') ?>">TKP</a></li>
 					</ul>
 				</li>
 			</ul>

@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Data<small>Desa</small></h1>
+	<h1>Data<small>Laporan Kriminal</small></h1>
 </section>
 
 <!-- Main content -->
@@ -10,7 +10,16 @@
 			<table class="table table-hover table-striped datatable">
 				<thead>
 					<th>No</th>
-					<th>Nama</th>
+					<th>Nomor Surat</th>
+					<th>Tanggal</th>
+					<th>Jenis</th>
+					<th>Desa</th>
+					<th>Dusun</th>
+					<th>Jalan</th>
+					<th>TKP</th>
+					<th>Kerugian Nominal</th>
+					<th>Modus</th>
+					<th>Deskripsi</th>
 					<th>Opsi</th>
 				</thead>
 				<tbody>

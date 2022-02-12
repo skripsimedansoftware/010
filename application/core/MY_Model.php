@@ -158,6 +158,16 @@ class MY_Model extends \CI_Model
 
 		return $this->db->delete($this->table);
 	}
+
+	/**
+	 * Count data
+	 *
+	 * @return     integer
+	 */
+	public function count()
+	{
+		return $this->db->count_all($this->table);
+	}
 }
 
 /* End of file MY_Model.php */

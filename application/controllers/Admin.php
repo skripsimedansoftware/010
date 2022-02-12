@@ -7,7 +7,6 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => strtolower($this->router->fetch_class())]);
-		$this->load->model(['user', 'email_confirm']);
 		if (empty($this->session->userdata($this->router->fetch_class())))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'email_confirm', 'forgot_password', 'reset_password']))
@@ -156,19 +155,22 @@ class Admin extends CI_Controller {
 
 	}
 
-	public function desa($id = NULL, $option = 'view')
+	public function desa($option = 'view', $id = NULL)
 	{
 		switch ($option)
 		{
 			case 'add':
-				if ($this->router->fetch_method() == 'post')
+				if ($this->input->method() == 'post')
 				{
-					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
 					if ($this->form_validation->run() == TRUE)
 					{
-						$data = array();
+						$data = array(
+							'nama' => $this->input->post('nama')
+						);
 						$this->desa->create($data);
 						$this->session->set_flashdata('update', 'Data desa berhasil ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/desa'), 'refresh');
 					}
 					else
 					{
@@ -188,7 +190,7 @@ class Admin extends CI_Controller {
 
 					if (!empty($detail))
 					{
-						if ($this->router->fetch_method() == 'post')
+						if ($this->input->method() == 'post')
 						{
 							$data = array();
 							$this->desa->update($data, array('id' => $id));
@@ -217,34 +219,41 @@ class Admin extends CI_Controller {
 				{
 					$this->desa->delete(array('id' => $id));
 					$this->session->set_flashdata('update', 'Data desa berhasil dihapus');
-					redirect(base_url($this->router->fetch_class().'/data_desa'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/desa'), 'refresh');
 				}
 				else
 				{
 					$this->session->set_flashdata('update', 'Data desa tidak ditemukan');
-					redirect(base_url($this->router->fetch_class().'/data_desa'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/desa'), 'refresh');
 				}
 			break;
 
 			default:
+				$data['data'] = $this->desa->read();
 				$this->template->load('desa/home', $data);
 			break;
 		}
 	}
 
-	public function dusun($id = NULL, $option = 'view')
+	public function dusun($option = 'view', $id = NULL)
 	{
 		switch ($option)
 		{
 			case 'add':
-				if ($this->router->fetch_method() == 'post')
+				if ($this->input->method() == 'post')
 				{
-					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					$this->form_validation->set_rules('desa', 'Desa', 'trim|required');
+					$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+
 					if ($this->form_validation->run() == TRUE)
 					{
-						$data = array();
+						$data = array(
+							'desa' => $this->input->post('desa'),
+							'nama' => $this->input->post('nama'),
+						);
 						$this->dusun->create($data);
 						$this->session->set_flashdata('update', 'Data dusun berhasil ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/dusun'), 'refresh');
 					}
 					else
 					{
@@ -264,16 +273,19 @@ class Admin extends CI_Controller {
 
 					if (!empty($detail))
 					{
-						if ($this->router->fetch_method() == 'post')
+						if ($this->input->method() == 'post')
 						{
-							$data = array();
+							$data = array(
+								'desa' => $this->input->post('desa'),
+								'nama' => $this->input->post('nama')
+							);
 							$this->dusun->update($data, array('id' => $id));
 							$this->session->set_flashdata('update', 'Data dusun telah diperbaharui');
 							redirect(base_url($this->router->fetch_class().'/dusun'), 'refresh');
 						}
 						else
 						{
-							$data['data'] = $detail;
+							$data['data'] = $detail->row_array();
 							$this->template->load('dusun/edit', $data);
 						}
 					}
@@ -293,34 +305,39 @@ class Admin extends CI_Controller {
 				{
 					$this->dusun->delete(array('id' => $id));
 					$this->session->set_flashdata('update', 'Data dusun berhasil dihapus');
-					redirect(base_url($this->router->fetch_class().'/data_dusun'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/dusun'), 'refresh');
 				}
 				else
 				{
 					$this->session->set_flashdata('update', 'Data dusun tidak ditemukan');
-					redirect(base_url($this->router->fetch_class().'/data_dusun'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/dusun'), 'refresh');
 				}
 			break;
 
 			default:
+				$data['data'] = $this->dusun->read();
 				$this->template->load('dusun/home', $data);
 			break;
 		}
 	}
 
-	public function tkp($id = NULL, $option = 'view')
+	public function tkp($option = 'view', $id = NULL)
 	{
 		switch ($option)
 		{
 			case 'add':
-				if ($this->router->fetch_method() == 'post')
+				if ($this->input->method() == 'post')
 				{
-					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
 					if ($this->form_validation->run() == TRUE)
 					{
-						$data = array();
+						$data = array(
+							'jalan' => $this->input->post('jalan'),
+							'nama' => $this->input->post('nama')
+						);
 						$this->tkp->create($data);
 						$this->session->set_flashdata('update', 'Data tkp berhasil ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/tkp'), 'refresh');
 					}
 					else
 					{
@@ -340,9 +357,12 @@ class Admin extends CI_Controller {
 
 					if (!empty($detail))
 					{
-						if ($this->router->fetch_method() == 'post')
+						if ($this->input->method() == 'post')
 						{
-							$data = array();
+							$data = array(
+								'jalan' => $this->input->post('jalan'),
+								'nama' => $this->input->post('nama')
+							);
 							$this->tkp->update($data, array('id' => $id));
 							$this->session->set_flashdata('update', 'Data tkp telah diperbaharui');
 							redirect(base_url($this->router->fetch_class().'/tkp'), 'refresh');
@@ -369,34 +389,41 @@ class Admin extends CI_Controller {
 				{
 					$this->tkp->delete(array('id' => $id));
 					$this->session->set_flashdata('update', 'Data tkp berhasil dihapus');
-					redirect(base_url($this->router->fetch_class().'/data_tkp'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/tkp'), 'refresh');
 				}
 				else
 				{
 					$this->session->set_flashdata('update', 'Data tkp tidak ditemukan');
-					redirect(base_url($this->router->fetch_class().'/data_tkp'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/tkp'), 'refresh');
 				}
 			break;
 
 			default:
+				$data['data'] = $this->tkp->read();
 				$this->template->load('tkp/home', $data);
 			break;
 		}
 	}
 
-	public function jalan($id = NULL, $option = 'view')
+	public function jalan($option = 'view', $id = NULL)
 	{
 		switch ($option)
 		{
 			case 'add':
-				if ($this->router->fetch_method() == 'post')
+				if ($this->input->method() == 'post')
 				{
-					$this->form_validation->set_rules('name', 'Nama', 'trim|required');
+					$this->form_validation->set_rules('dusun', 'Dusun', 'trim|required');
+					$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+
 					if ($this->form_validation->run() == TRUE)
 					{
-						$data = array();
+						$data = array(
+							'dusun' => $this->input->post('dusun'),
+							'nama' => $this->input->post('nama')
+						);
 						$this->jalan->create($data);
 						$this->session->set_flashdata('update', 'Data jalan berhasil ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/jalan'), 'refresh');
 					}
 					else
 					{
@@ -416,7 +443,7 @@ class Admin extends CI_Controller {
 
 					if (!empty($detail))
 					{
-						if ($this->router->fetch_method() == 'post')
+						if ($this->input->method() == 'post')
 						{
 							$data = array();
 							$this->jalan->update($data, array('id' => $id));
@@ -445,17 +472,73 @@ class Admin extends CI_Controller {
 				{
 					$this->jalan->delete(array('id' => $id));
 					$this->session->set_flashdata('update', 'Data jalan berhasil dihapus');
-					redirect(base_url($this->router->fetch_class().'/data_jalan'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/jalan'), 'refresh');
 				}
 				else
 				{
 					$this->session->set_flashdata('update', 'Data jalan tidak ditemukan');
-					redirect(base_url($this->router->fetch_class().'/data_jalan'), 'refresh');
+					redirect(base_url($this->router->fetch_class().'/jalan'), 'refresh');
 				}
 			break;
 
 			default:
+				$data['data'] = $this->jalan->read();
 				$this->template->load('jalan/home', $data);
+			break;
+		}
+	}
+
+	public function laporan_krimal($option = 'view', $id = NULL)
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->input->method() == 'post')
+				{
+
+				}
+				else
+				{
+					$this->template->load('laporan_kriminal/home');
+				}
+			break;
+
+			case 'edit':
+				if (!empty($id))
+				{
+					if ($this->input->method() == 'post')
+					{
+
+					}
+					else
+					{
+						$data['data'] = $detail;
+						$this->template->load('laporan_kriminal/edit');
+					}
+				}
+				else
+				{
+					$this->show_error(404, 'Data Tidak Ditemukan', 'Data laporan kriminal tidak ditemukan');
+				}
+			break;
+
+			case 'delete':
+				if (!empty($id))
+				{
+					$this->laporan_kriminal->delete(array('id' => $id));
+					$this->session->set_flashdata('update', 'Data laporan kriminal berhasil dihapus');
+					redirect(base_url($this->router->fetch_class().'/laporan kriminal'), 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('update', 'Data laporan kriminal tidak ditemukan');
+					redirect(base_url($this->router->fetch_class().'/laporan kriminal'), 'refresh');
+				}
+			break;
+
+			default:
+				$data['data'] = $this->laporan_kriminal->read();
+				$this->template->load('laporan_kriminal/home', $data);
 			break;
 		}
 	}
