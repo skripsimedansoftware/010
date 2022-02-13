@@ -10,6 +10,7 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => strtolower($this->router->fetch_class())]);
+		$this->load->library('kmeans');
 		if (empty($this->session->userdata($this->router->fetch_class())))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'email_confirm', 'forgot_password', 'reset_password']))
@@ -609,14 +610,60 @@ class Admin extends CI_Controller {
 
 	public function kmeans_clustering($mode = NULL)
 	{
+		$laporan_kriminal = $this->laporan_kriminal->read()->result();
+
 		switch ($mode) {
 			case 'data_tabular':
-				$data['data'] = $this->laporan_kriminal->read()->result();
+				$data['data'] = $laporan_kriminal;
 				$this->template->load('kmeans_clustering/table', $data);
 			break;
 
 			default:
-				$this->template->load('kmeans_clustering/home');
+				$data['data'] = $laporan_kriminal;
+				$kmeans = $this->kmeans;
+				$kmeans->setAttributes(array(
+					'Jenis', 'Desa', 'Dusun', 'Jalan', 'TKP', 'Aksi', 'Nominal Kerugian'
+				));
+
+				foreach ($laporan_kriminal as $value)
+				{
+					switch ($value->aksi) {
+						case 'pembunuhan':
+							$aksi = 3;
+						break;
+
+						case 'pencopetan':
+							$aksi = 2;
+						break;
+
+						case 'pencurian':
+							$aksi = 1;
+						break;
+
+						default:
+							$aksi = 0;
+						break;
+					}
+
+					$kmeans->setDataFromArgs(
+						($value->jenis == 'pencurian-motor')?1:2,
+						$value->desa,
+						$value->dusun,
+						$value->jalan,
+						$value->tkp,
+						$aksi,
+						$value->kerugian_nominal
+					);
+				}
+
+				$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
+				$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[2, 3, 4]);
+
+				$kmeans->setClusterCount($cluster_count); // Set amount of cluster
+				$kmeans->setCentroid($centroid);
+
+				$data['kmeans'] = $kmeans;
+				$this->template->load('kmeans_clustering/home', $data);
 			break;
 		}
 	}

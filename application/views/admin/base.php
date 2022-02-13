@@ -145,11 +145,12 @@ desired effect
 					</ul>
 				</li>
 				<li class="treeview <?= $this->router->fetch_method() == 'kmeans_clustering'?'active':'' ?>">
-					<a href="#"><i class="fa fa-sitemap"></i> <span>K-Means Clustering</span>
+					<a href="#"><i class="fa fa-sitemap"></i> <span>K-Means</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
 					</a>
 					<ul class="treeview-menu">
-						<li class="<?= $this->uri->segment(3) == 'data_tabular'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular') ?>">Data Tabular</a></li>
+						<li class="<?= $this->uri->segment(3) == 'data_tabular'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular') ?>">Tabular</a></li>
+						<li class="<?= $this->uri->segment(3) == ''?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/') ?>">Cluster</a></li>
 					</ul>
 				</li>
 			</ul>
