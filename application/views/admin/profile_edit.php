@@ -1,5 +1,5 @@
 <section class="content-header">
-	<h1>Administrator<small>Profile Edit</small></h1>
+	<h1>Administrator<small>Sunting Profil</small></h1>
 </section>
 
 <section class="content container-fluid">

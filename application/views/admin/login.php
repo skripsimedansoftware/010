@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Login Page</title>
+	<title>Halaman Masuk</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>bower_components/font-awesome/css/font-awesome.min.css">
@@ -24,7 +24,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
 	<div class="login-logo">
-		<a href="<?php echo base_url() ?>">Welcome to <b><?= $this->config->item('app_name') ?></b></a>
+		<a href="<?php echo base_url() ?>"><b><?= $this->config->item('app_name') ?></b></a>
 	</div>
 	<div class="login-box-body">
 		<p class="login-box-msg">Masuk untuk memulai sesi anda</p>

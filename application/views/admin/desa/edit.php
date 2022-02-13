@@ -5,17 +5,18 @@
 
 <!-- Main content -->
 <section class="content container-fluid">
-	<div class="box">
-		<div class="box-body">
-			<form method="post" action="<?= base_url($this->router->fetch_class().'/desa/edit/'.$data['id']) ?>">
+	<form method="post" action="<?= base_url($this->router->fetch_class().'/desa/edit/'.$data['id']) ?>">
+		<div class="box">
+			<div class="box-body">
 				<div class="form-group">
 					<label>Nama</label>
-					<input type="text" class="form-control" name="nama" placeholder="Nama">
+					<input type="text" class="form-control" name="nama" placeholder="Nama" value="<?= $data['nama'] ?>">
 				</div>
-			</form>
+			</div>
+			<div class="box-footer">
+				<a href="<?= base_url($this->router->fetch_class().'/desa') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Batal</a>
+				<button class="btn btn-success"><i class="fa fa-save"></i> Simpan Perubahan</button>
+			</div>
 		</div>
-		<div class="box-footer">
-			<a href="<?= base_url('desa/') ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Desa</a>
-		</div>
-	</div>
+	</form>
 </section>

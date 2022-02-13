@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="<?= base_url('assets/adminlte/') ?>dist/css/skins/_all-skins.min.css">
 	<link rel="stylesheet" href="<?= base_url('assets/plugins/') ?>SweetAlert2/dist/sweetalert2.min.css">
 	<link rel="stylesheet" href="<?= base_url('assets/plugins/') ?>DataTables/datatables.min.css">
+
+	<script src="<?= base_url('assets/adminlte/') ?>bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -90,7 +92,7 @@ desired effect
 							<!-- The user image in the menu -->
 							<li class="user-header">
 								<img src="<?= (!empty($user->photo))?base_url('uploads/'.$user->photo):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image">
-								<p><?= $user->full_name ?> - Admin</p>
+								<p><?= $user->full_name ?></p>
 							</li>
 							<!-- Menu Footer-->
 							<li class="user-footer">
@@ -130,7 +132,7 @@ desired effect
 				<li class="header">MENU</li>
 				<!-- Optionally, you can add icons to the links -->
 				<li class="<?= $this->router->fetch_method() == 'index'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
-				<li class="<?= $this->router->fetch_method() == 'laporan_krimal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_krimal') ?>"><i class="fa fa-file"></i> <span>Laporan Kriminal</span></a></li>
+				<li class="<?= $this->router->fetch_method() == 'laporan_kriminal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_kriminal') ?>"><i class="fa fa-file"></i> <span>Laporan Kriminal</span></a></li>
 				<li class="treeview <?= in_array($this->router->fetch_method(), ['desa', 'dusun', 'jalan', 'tkp'])?'active':'' ?>">
 					<a href="#"><i class="fa fa-database"></i> <span>Data</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -140,6 +142,14 @@ desired effect
 						<li class="<?= $this->router->fetch_method() == 'dusun'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/dusun') ?>">Dusun</a></li>
 						<li class="<?= $this->router->fetch_method() == 'jalan'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jalan') ?>">Jalan</a></li>
 						<li class="<?= $this->router->fetch_method() == 'tkp'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/tkp') ?>">TKP</a></li>
+					</ul>
+				</li>
+				<li class="treeview <?= $this->router->fetch_method() == 'kmeans_clustering'?'active':'' ?>">
+					<a href="#"><i class="fa fa-sitemap"></i> <span>K-Means Clustering</span>
+						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+					</a>
+					<ul class="treeview-menu">
+						<li class="<?= $this->uri->segment(3) == 'data_tabular'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular') ?>">Data Tabular</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -158,87 +168,21 @@ desired effect
 	<footer class="main-footer">
 		<!-- To the right -->
 		<div class="pull-right hidden-xs">
-			Anything you want
+			<?= $this->config->item('app_name').' by '.$this->config->item('app_user'); ?>
 		</div>
 		<!-- Default to the left -->
 		<strong>Copyright &copy; <?= date('Y') ?> <a href="#"><?= $this->config->item('app_name'); ?></a>.</strong> All rights reserved.
 	</footer>
 
-	<!-- Control Sidebar -->
-	<aside class="control-sidebar control-sidebar-dark">
-		<!-- Create the tabs -->
-		<ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-			<li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-			<li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-		</ul>
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<!-- Home tab content -->
-			<div class="tab-pane active" id="control-sidebar-home-tab">
-				<h3 class="control-sidebar-heading">Recent Activity</h3>
-				<ul class="control-sidebar-menu">
-					<li>
-						<a href="javascript:;">
-							<i class="menu-icon fa fa-birthday-cake bg-red"></i>
-							<div class="menu-info">
-								<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-								<p>Will be 23 on April 24th</p>
-							</div>
-						</a>
-					</li>
-				</ul>
-				<!-- /.control-sidebar-menu -->
-
-				<h3 class="control-sidebar-heading">Tasks Progress</h3>
-				<ul class="control-sidebar-menu">
-					<li>
-						<a href="javascript:;">
-							<h4 class="control-sidebar-subheading">
-								Custom Template Design
-								<span class="pull-right-container"><span class="label label-danger pull-right">70%</span></span>
-							</h4>
-
-							<div class="progress progress-xxs">
-								<div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-							</div>
-						</a>
-					</li>
-				</ul>
-				<!-- /.control-sidebar-menu -->
-
-			</div>
-			<!-- /.tab-pane -->
-			<!-- Stats tab content -->
-			<div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-			<!-- /.tab-pane -->
-			<!-- Settings tab content -->
-			<div class="tab-pane" id="control-sidebar-settings-tab">
-				<form method="post">
-					<h3 class="control-sidebar-heading">General Settings</h3>
-					<div class="form-group">
-						<label class="control-sidebar-subheading">
-							Report panel usage
-							<input type="checkbox" class="pull-right" checked>
-						</label>
-						<p>Some information about this general settings option</p>
-					</div>
-					<!-- /.form-group -->
-				</form>
-			</div>
-			<!-- /.tab-pane -->
-		</div>
-	</aside>
 	<!-- /.control-sidebar -->
 	<!-- Add the sidebar's background. This div must be placed
 	immediately after the control sidebar -->
-	<div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="<?= base_url('assets/adminlte/') ?>bower_components/jquery/dist/jquery.min.js"></script>
 
 <!-- Bootstrap 3.3.7 -->
 <script src="<?= base_url('assets/adminlte/') ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -268,7 +212,92 @@ function readURL(input) {
 	}
 }
 
-$('.datatable').DataTable();
+function formatCurrency(input, blur) {
+	// appends $ to value, validates decimal side
+	// and puts cursor back in right position.
+	//
+	function formatNumber(n) {
+		// format number 1000000 to 1,234,567
+		return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+	}
+
+		// get input value
+	var input_val = input.val();
+
+	// don't validate empty input
+	if (input_val === "") { return; }
+
+	// original length
+	var original_len = input_val.length;
+
+	// initial caret position
+	var caret_pos = input.prop("selectionStart");
+
+	// check for decimal
+	if (input_val.indexOf(".") >= 0) {
+
+		// get position of first decimal
+		// this prevents multiple decimals from
+		// being entered
+		var decimal_pos = input_val.indexOf(".");
+
+		// split number by decimal point
+		var left_side = input_val.substring(0, decimal_pos);
+		var right_side = input_val.substring(decimal_pos);
+
+		// add commas to left side of number
+		left_side = formatNumber(left_side);
+
+		// validate right side
+		right_side = formatNumber(right_side);
+
+		// On blur make sure 2 numbers after decimal
+		if (blur === "blur") {
+			right_side += "00";
+		}
+
+		// Limit decimal to only 2 digits
+		right_side = right_side.substring(0, 2);
+
+		// join number by .
+		input_val = left_side + "." + right_side;
+
+	} else {
+		// no decimal entered
+		// add commas to number
+		// remove all non-digits
+		input_val = formatNumber(input_val);
+		input_val = input_val;
+
+		// final formatting
+		if (blur === "blur") {
+			input_val += ".00";
+		}
+	}
+
+	// send updated string to input
+	input.val(input_val);
+
+	// put caret back in the right position
+	var updated_len = input_val.length;
+	caret_pos = updated_len - original_len + caret_pos;
+	input[0].setSelectionRange(caret_pos, caret_pos);
+}
+
+$("input[data-type='currency']").on({
+	keyup: function() {
+		formatCurrency($(this));
+	},
+	blur: function() {
+		formatCurrency($(this), "blur");
+	}
+});
+
+
+$('.datatable').DataTable({
+	responsive: true
+});
+$('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
 </script>
 </body>
 </html>

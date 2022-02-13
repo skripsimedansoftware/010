@@ -1,0 +1,6 @@
+{
+    "require": {
+        "medansoftware/kmeans-algorithm-php": "^1.0",
+        "phpoffice/phpspreadsheet": "^1.21"
+    }
+}

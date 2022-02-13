@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Admin extends CI_Controller {
 
 	public function __construct()
@@ -150,11 +153,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function laporan_kriminal()
-	{
-
-	}
-
 	public function desa($option = 'view', $id = NULL)
 	{
 		switch ($option)
@@ -192,14 +190,16 @@ class Admin extends CI_Controller {
 					{
 						if ($this->input->method() == 'post')
 						{
-							$data = array();
+							$data = array(
+								'nama' => $this->input->post('nama')
+							);
 							$this->desa->update($data, array('id' => $id));
 							$this->session->set_flashdata('update', 'Data desa telah diperbaharui');
 							redirect(base_url($this->router->fetch_class().'/desa'), 'refresh');
 						}
 						else
 						{
-							$data['data'] = $detail;
+							$data['data'] = $detail->row_array();
 							$this->template->load('desa/edit', $data);
 						}
 					}
@@ -488,18 +488,58 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function laporan_krimal($option = 'view', $id = NULL)
+	public function laporan_kriminal($option = 'view', $id = NULL)
 	{
+		if (!empty($id))
+		{
+			$detail = $this->laporan_kriminal->read(array('id' => $id));
+		}
+
 		switch ($option)
 		{
 			case 'add':
 				if ($this->input->method() == 'post')
 				{
+					$this->form_validation->set_rules('nomor_surat', 'Nomor Surat', 'trim|required');
+					$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+					$this->form_validation->set_rules('jenis', 'Jenis Laporan', 'trim|required');
+					$this->form_validation->set_rules('desa', 'Nama Desa', 'trim|required');
+					$this->form_validation->set_rules('dusun', 'Nama Dusun', 'trim|required');
+					$this->form_validation->set_rules('jalan', 'Nama Jalan', 'trim|required');
+					$this->form_validation->set_rules('tkp', 'Nama TKP', 'trim|required');
+					$this->form_validation->set_rules('nominal_kerugian', 'Nominal Kerugian', 'trim|required');
+					$this->form_validation->set_rules('aksi', 'Nominal Kerugian', 'trim|required');
+					$this->form_validation->set_rules('detail', 'Detail Kejadian', 'trim|required');
 
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'nomor_surat' => $this->input->post('nomor_surat'),
+							'tanggal' => $this->input->post('tanggal'),
+							'jenis' => $this->input->post('jenis'),
+							'desa' => $this->input->post('desa'),
+							'dusun' => $this->input->post('dusun'),
+							'jalan' => $this->input->post('jalan'),
+							'tkp' => $this->input->post('tkp'),
+							'kerugian_nominal' => $this->input->post('nominal_kerugian'),
+							'aksi' => $this->input->post('aksi'),
+							'deskripsi' => $this->input->post('detail'),
+						);
+
+						$data['tanggal'] = nice_date($data['tanggal'], 'Y-m-d');
+						$data['kerugian_nominal'] = str_replace(',', '', $data['kerugian_nominal']);
+						$this->laporan_kriminal->create($data);
+						$this->session->set_flashdata('update', 'Data laporan kriminal telah ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/laporan_kriminal'), 'refresh');
+					}
+					else
+					{
+						$this->template->load('laporan_kriminal/add');
+					}
 				}
 				else
 				{
-					$this->template->load('laporan_kriminal/home');
+					$this->template->load('laporan_kriminal/add');
 				}
 			break;
 
@@ -512,8 +552,8 @@ class Admin extends CI_Controller {
 					}
 					else
 					{
-						$data['data'] = $detail;
-						$this->template->load('laporan_kriminal/edit');
+						$data['data'] = $detail->row_array();
+						$this->template->load('laporan_kriminal/edit', $data);
 					}
 				}
 				else
@@ -527,13 +567,13 @@ class Admin extends CI_Controller {
 				{
 					$this->laporan_kriminal->delete(array('id' => $id));
 					$this->session->set_flashdata('update', 'Data laporan kriminal berhasil dihapus');
-					redirect(base_url($this->router->fetch_class().'/laporan kriminal'), 'refresh');
 				}
 				else
 				{
 					$this->session->set_flashdata('update', 'Data laporan kriminal tidak ditemukan');
-					redirect(base_url($this->router->fetch_class().'/laporan kriminal'), 'refresh');
 				}
+
+				redirect(base_url($this->router->fetch_class().'/laporan_kriminal'), 'refresh');
 			break;
 
 			default:
@@ -541,6 +581,180 @@ class Admin extends CI_Controller {
 				$this->template->load('laporan_kriminal/home', $data);
 			break;
 		}
+	}
+
+	public function json_data($name = NULL, $id = NULL)
+	{
+		if ($name == 'desa')
+		{
+			$this->output->set_content_type('application/json')->set_output(json_encode($this->desa->read()->result_array()));
+		}
+		elseif ($name == 'dusun')
+		{
+			$this->output->set_content_type('application/json')->set_output(json_encode($this->dusun->read(array('desa' => $id))->result_array()));
+		}
+		elseif ($name == 'jalan')
+		{
+			$this->output->set_content_type('application/json')->set_output(json_encode($this->jalan->read(array('dusun' => $id))->result_array()));
+		}
+		elseif ($name == 'tkp')
+		{
+			$this->output->set_content_type('application/json')->set_output(json_encode($this->tkp->read(array('jalan' => $id))->result_array()));
+		}
+		else
+		{
+			$this->output->set_content_type('application/json')->set_output(json_encode([]));
+		}
+	}
+
+	public function kmeans_clustering($mode = NULL)
+	{
+		switch ($mode) {
+			case 'data_tabular':
+				$data['data'] = $this->laporan_kriminal->read()->result();
+				$this->template->load('kmeans_clustering/table', $data);
+			break;
+
+			default:
+				$this->template->load('kmeans_clustering/home');
+			break;
+		}
+	}
+
+	public function show_error($code = 404, $title = NULL, $message = NULL)
+	{
+		$this->template->load('error');
+	}
+
+	public function import_data($file = NULL, $sheet = NULL)
+	{
+		$file = FCPATH.'import.xlsx';
+		$import = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+		echo "<pre>";
+		print_r ($import->getSheetNames());
+		echo "</pre>";
+
+		$import->setActiveSheetIndex(0);
+
+		// echo "<pre>";
+		// print_r ($import->getActiveSheet());
+		// echo "</pre>";
+
+		$import = $import->getActiveSheet()->toArray();
+
+		array_shift($import);
+		$import = array_map(function($value) {
+
+			if (!empty($value[1]))
+			{
+				if (preg_match('/(bunuh)i/', $value[9]))
+				{
+					$aksi = 'pembunuhan';
+				}
+				elseif (preg_match('/(copet|jambret)i/', $value[9]))
+				{
+					$aksi = 'pencopetan';
+				}
+				elseif (preg_match('/(bunuh)i/', $value[9]))
+				{
+					$aksi = 'pencurian';
+				}
+				else
+				{
+					$aksi = NULL;
+				}
+
+				$nama_desa = ucwords(strtolower(trim($value[4])));
+				$desa = $this->desa->read(array('nama' => $nama_desa));
+				if ($desa->num_rows() >= 1)
+				{
+					$desa = $desa->row()->id;
+				}
+				else
+				{
+					$desa = $this->desa->create(array(
+						'nama' => $nama_desa
+					), TRUE);
+				}
+
+				$nama_dusun = ucwords(strtolower(trim($value[5])));
+				$dusun = $this->dusun->read(array('nama' => $nama_dusun));
+				if ($dusun->num_rows() >= 1)
+				{
+					$dusun = $dusun->row()->id;
+				}
+				else
+				{
+					$dusun = $this->dusun->create(array(
+						'desa' => $desa,
+						'nama' => $nama_dusun
+					), TRUE);
+				}
+
+				$nama_jalan = ucwords(strtolower(trim($value[6])));
+				$jalan = $this->jalan->read(array('nama' => $nama_jalan));
+				if ($jalan->num_rows() >= 1)
+				{
+					$jalan = $jalan->row()->id;
+				}
+				else
+				{
+					$jalan = $this->jalan->create(array(
+						'dusun' => $dusun,
+						'nama' => $nama_jalan
+					), TRUE);
+				}
+
+				$nama_tkp = ucwords(strtolower(trim($value[7])));
+				$tkp = $this->tkp->read(array('nama' => $nama_tkp));
+				if ($tkp->num_rows() >= 1)
+				{
+					$tkp = $tkp->row()->id;
+				}
+				else
+				{
+					$tkp = $this->tkp->create(array(
+						'jalan' => $jalan,
+						'nama' => $nama_tkp
+					), TRUE);
+				}
+
+
+				return array(
+					'nomor_surat' => $value[1],
+					'tanggal' => nice_date($value[2], 'Y-m-d'),
+					'jenis' => preg_match('/motor/i', $value[3])? 'pencurian-motor':'pencurian-ringan',
+					'desa' => $desa,
+					'dusun' => $dusun,
+					'jalan' => $jalan,
+					'tkp' => $tkp,
+					'kerugian_nominal' => str_replace(['Rp', ','], '', $value[8]),
+					'aksi' => $aksi,
+					'deskripsi' => $value[10]
+				);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}, $import);
+
+		$import = array_filter($import);
+
+		foreach ($import as $data)
+		{
+			$this->laporan_kriminal->create($data);
+		}
+
+		echo "<pre>";
+		print_r ($import);
+		echo "</pre>";
+
+	}
+
+	public function export_data()
+	{
+
 	}
 
 	public function is_owned_data($val, $str)
