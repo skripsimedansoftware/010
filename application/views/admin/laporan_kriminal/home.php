@@ -32,7 +32,7 @@
 							<td><?= nice_date($value['tanggal'], 'd-m-Y') ?></td>
 							<td><?= $value['jenis'] == 'pencurian-motor'?'Pencurian Sepeda Motor':'Pencurian Ringan' ?></td>
 							<td><?= $this->desa->read(array('id' => $value['desa']))->row()->nama ?></td>
-							<td><?= $this->tkp->read(array('id' => $value['tkp']))->row()->nama ?></td>
+							<td><?php //$this->tkp->read(array('id' => $value['tkp']))->row()->nama ?></td>
 							<td><?= $value['kerugian_nominal'] ?></td>
 							<td>
 								<a href="<?= base_url($this->router->fetch_class().'/laporan_kriminal/edit/'.$value['id']) ?>" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>

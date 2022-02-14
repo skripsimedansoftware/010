@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 13, 2022 at 12:00 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.31
+-- Host: 127.0.0.1
+-- Generation Time: Feb 14, 2022 at 11:07 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -86,8 +86,8 @@ CREATE TABLE `laporan-kriminal` (
   `dusun` int(2) NOT NULL,
   `jalan` int(3) NOT NULL,
   `tkp` int(3) DEFAULT NULL,
-  `kerugian_nominal` int(2) NOT NULL,
-  `aksi` enum('pembunuhan','pencopetan','pencurian') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kerugian_nominal` double NOT NULL,
+  `aksi` enum('pembunuhan','pencopetan','pencurian') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deskripsi` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
