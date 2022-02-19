@@ -656,11 +656,14 @@ class Admin extends CI_Controller {
 					);
 				}
 
-				$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
-				$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[2, 3, 4]);
+				if (!empty($laporan_kriminal))
+				{
+					$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
+					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[2, 3, 4]);
 
-				$kmeans->setClusterCount($cluster_count); // Set amount of cluster
-				$kmeans->setCentroid($centroid);
+					$kmeans->setClusterCount($cluster_count); // Set amount of cluster
+					$kmeans->setCentroid($centroid);
+				}
 
 				$data['kmeans'] = $kmeans;
 				$this->template->load('kmeans_clustering/home', $data);
