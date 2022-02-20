@@ -31,7 +31,7 @@
 			foreach ($result['centroids'] as $centroid)
 			{
 				?>
-				<div class="col-lg-<?= $col_width_centroid;?>">
+				<div class="col-lg-<?= $col_width_centroid;?> col-md-<?= $col_width_centroid;?> col-xs-<?= $col_width_centroid;?>">
 					<table class="table table-hover table-striped table-bordered">
 						<?php
 						foreach ($centroid as $key => $val)
