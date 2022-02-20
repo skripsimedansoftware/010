@@ -19,7 +19,7 @@
 					</div>
 					<div class="form-group">
 						<label>Nama</label>
-						<input type="text" class="form-control" name="nama" placeholder="Nama">
+						<input type="text" class="form-control" name="nama" placeholder="Nama" value="<?= set_value('nama', $data['nama']) ?>">
 					</div>
 				</div>
 			</div>

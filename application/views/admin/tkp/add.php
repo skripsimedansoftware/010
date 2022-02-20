@@ -10,14 +10,6 @@
 			<div class="box-body">
 				<div class="col-lg-6">
 					<div class="form-group">
-						<label>Jalan</label>
-						<select class="form-control" name="jalan">
-							<?php foreach ($this->jalan->read()->result_array() as $jalan): ?>
-								<option value="<?= $jalan['id'] ?>"><?= $jalan['nama'] ?></option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="form-group">
 						<label>Nama</label>
 						<input type="text" class="form-control" name="nama" placeholder="Nama">
 					</div>

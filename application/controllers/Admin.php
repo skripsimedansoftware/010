@@ -333,7 +333,6 @@ class Admin extends CI_Controller {
 					if ($this->form_validation->run() == TRUE)
 					{
 						$data = array(
-							'jalan' => $this->input->post('jalan'),
 							'nama' => $this->input->post('nama')
 						);
 						$this->tkp->create($data);
@@ -361,7 +360,6 @@ class Admin extends CI_Controller {
 						if ($this->input->method() == 'post')
 						{
 							$data = array(
-								'jalan' => $this->input->post('jalan'),
 								'nama' => $this->input->post('nama')
 							);
 							$this->tkp->update($data, array('id' => $id));
@@ -370,7 +368,7 @@ class Admin extends CI_Controller {
 						}
 						else
 						{
-							$data['data'] = $detail;
+							$data['data'] = $detail->row_array();
 							$this->template->load('tkp/edit', $data);
 						}
 					}
@@ -453,7 +451,7 @@ class Admin extends CI_Controller {
 						}
 						else
 						{
-							$data['data'] = $detail;
+							$data['data'] = $detail->row_array();
 							$this->template->load('jalan/edit', $data);
 						}
 					}
@@ -622,36 +620,17 @@ class Admin extends CI_Controller {
 				$data['data'] = $laporan_kriminal;
 				$kmeans = $this->kmeans;
 				$kmeans->setAttributes(array(
-					'Jenis', 'Desa', 'Dusun', 'Jalan', 'TKP', 'Aksi', 'Nominal Kerugian'
+					'Jenis', 'Desa', 'Dusun', 'Jalan', 'TKP', 'Nominal Kerugian'
 				));
 
 				foreach ($laporan_kriminal as $value)
 				{
-					switch ($value->aksi) {
-						case 'pembunuhan':
-							$aksi = 3;
-						break;
-
-						case 'pencopetan':
-							$aksi = 2;
-						break;
-
-						case 'pencurian':
-							$aksi = 1;
-						break;
-
-						default:
-							$aksi = 0;
-						break;
-					}
-
 					$kmeans->setDataFromArgs(
 						($value->jenis == 'pencurian-motor')?1:2,
 						$value->desa,
 						$value->dusun,
 						$value->jalan,
 						$value->tkp,
-						$aksi,
 						$value->kerugian_nominal
 					);
 				}
@@ -659,7 +638,7 @@ class Admin extends CI_Controller {
 				if (!empty($laporan_kriminal))
 				{
 					$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
-					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[2, 3, 4]);
+					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[1, 2, 3]);
 
 					$kmeans->setClusterCount($cluster_count); // Set amount of cluster
 					$kmeans->setCentroid($centroid);
@@ -680,16 +659,7 @@ class Admin extends CI_Controller {
 	{
 		$file = FCPATH.'import.xlsx';
 		$import = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
-		echo "<pre>";
-		print_r ($import->getSheetNames());
-		echo "</pre>";
-
 		$import->setActiveSheetIndex(0);
-
-		// echo "<pre>";
-		// print_r ($import->getActiveSheet());
-		// echo "</pre>";
-
 		$import = $import->getActiveSheet()->toArray();
 
 		array_shift($import);
@@ -697,23 +667,6 @@ class Admin extends CI_Controller {
 
 			if (!empty($value[1]))
 			{
-				if (preg_match('/(bunuh)i/', $value[9]))
-				{
-					$aksi = 'pembunuhan';
-				}
-				elseif (preg_match('/(copet|jambret)i/', $value[9]))
-				{
-					$aksi = 'pencopetan';
-				}
-				elseif (preg_match('/(bunuh)i/', $value[9]))
-				{
-					$aksi = 'pencurian';
-				}
-				else
-				{
-					$aksi = NULL;
-				}
-
 				$nama_desa = ucwords(strtolower(trim($value[4])));
 				$desa = $this->desa->read(array('nama' => $nama_desa));
 				if ($desa->num_rows() >= 1)
@@ -741,45 +694,57 @@ class Admin extends CI_Controller {
 					), TRUE);
 				}
 
-				$nama_jalan = ucwords(strtolower(trim($value[6])));
-				$jalan = $this->jalan->read(array('nama' => $nama_jalan));
-				if ($jalan->num_rows() >= 1)
+				if (strlen($value[6]) > 1)
 				{
-					$jalan = $jalan->row()->id;
+					$nama_jalan = ucwords(strtolower(trim($value[6])));
+					$jalan = $this->jalan->read(array('nama' => $nama_jalan));
+					if ($jalan->num_rows() >= 1)
+					{
+						$jalan = $jalan->row()->id;
+					}
+					else
+					{
+						$jalan = $this->jalan->create(array(
+							'dusun' => $dusun,
+							'nama' => $nama_jalan
+						), TRUE);
+					}
 				}
 				else
 				{
-					$jalan = $this->jalan->create(array(
-						'dusun' => $dusun,
-						'nama' => $nama_jalan
-					), TRUE);
+					$jalan = 0;
 				}
 
-				$nama_tkp = ucwords(strtolower(trim($value[7])));
-				$tkp = $this->tkp->read(array('nama' => $nama_tkp));
-				if ($tkp->num_rows() >= 1)
+				if (strlen($value[7]) > 1)
 				{
-					$tkp = $tkp->row()->id;
+					$nama_tkp = ucwords(strtolower(trim($value[7])));
+					$tkp = $this->tkp->read(array('nama' => $nama_tkp));
+					if ($tkp->num_rows() >= 1)
+					{
+						$tkp = $tkp->row()->id;
+					}
+					else
+					{
+						$tkp = $this->tkp->create(array(
+							'nama' => $nama_tkp
+						), TRUE);
+					}
 				}
 				else
 				{
-					$tkp = $this->tkp->create(array(
-						'jalan' => $jalan,
-						'nama' => $nama_tkp
-					), TRUE);
+					$tkp = 0;
 				}
 
 
 				return array(
 					'nomor_surat' => $value[1],
-					'tanggal' => nice_date($value[2], 'Y-m-d'),
+					'tanggal' => nice_date(trim($value[2]), 'Y-m-d'),
 					'jenis' => preg_match('/motor/i', $value[3])? 'pencurian-motor':'pencurian-ringan',
 					'desa' => $desa,
 					'dusun' => $dusun,
 					'jalan' => $jalan,
 					'tkp' => $tkp,
 					'kerugian_nominal' => str_replace(['Rp', ','], '', $value[8]),
-					'aksi' => $aksi,
 					'deskripsi' => $value[10]
 				);
 			}
@@ -799,12 +764,6 @@ class Admin extends CI_Controller {
 		echo "<pre>";
 		print_r ($import);
 		echo "</pre>";
-
-	}
-
-	public function export_data()
-	{
-
 	}
 
 	public function is_owned_data($val, $str)

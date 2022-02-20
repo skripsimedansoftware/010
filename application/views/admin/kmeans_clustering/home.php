@@ -8,31 +8,92 @@
 	<div class="box">
 		<div class="box-body">
 		<?php
+		$result = array();
 		if (!empty($data))
 		{
 			$i = 1;
 			for (; ; ) {
 				$kmeans->setIteration($i);
 				$kmeans->run();
-				if ($kmeans->isDone()) {
-
-					// echo "<pre>";
-					// print_r ($kmeans->getCentroid());
-					// echo "</pre>";
-
-					// echo 'Iteration ended on : '.$kmeans->countIterations();
-
-					// echo "<pre>";
-					// print_r ($kmeans->catchLogs());
-					// echo "</pre>";
-
-					echo "<pre>";
-					print_r ($kmeans->getAllResults());
-					echo "</pre>";
+				if ($kmeans->isDone())
+				{
+					$result = $kmeans->getAllResults();
 					break;
 				}
 
 				$i++;
+			}
+
+			$count_centroid = count($result['centroids']);
+			$col_width_centroid = (12/$count_centroid);
+
+			// echo "<pre>";
+			// print_r ($result);
+			// echo "</pre>";
+
+			foreach ($result['centroids'] as $centroid)
+			{
+				?>
+				<div class="col-lg-<?= $col_width_centroid;?>">
+					<table class="table table-hover table-striped table-bordered">
+						<?php
+						foreach ($centroid as $key => $val)
+						{
+							?>
+							<tr>
+								<td><?= $key ?></td>
+								<td><?= $val ?></td>
+							</tr>
+							<?php
+						}
+						?>
+					</table>
+				</div>
+				<?php
+			}
+
+			for ($iteration = 0; $iteration < $result['iteration']; $iteration++)
+			{
+				?>
+				<div class="row">
+				<?php
+				foreach ($result['clusters']['iteration_'.($iteration+1)] as $cluster)
+				{
+					?>
+					<div class="col-lg-<?= $col_width_centroid;?>">
+						<table class="table table-hover table-striped table-bordered">
+							<thead>
+								<th>Jenis</th>
+								<th>Desa</th>
+								<th>Dusun</th>
+								<th>Jalan</th>
+								<th>TKP</th>
+								<th>Nominal Kerugian</th>
+							</thead>
+							<tbody>
+								<?php
+								foreach ($cluster as $item)
+								{
+									?>
+									<tr>
+										<td><?= $item['Jenis'] ?></td>
+										<td><?= $item['Desa'] ?></td>
+										<td><?= $item['Dusun'] ?></td>
+										<td><?= $item['Jalan'] ?></td>
+										<td><?= $item['TKP'] ?></td>
+										<td><?= $item['Nominal Kerugian'] ?></td>
+									</tr>
+									<?php
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
+					<?php
+				}
+				?>
+				</div>
+				<?php
 			}
 		}
 		else
