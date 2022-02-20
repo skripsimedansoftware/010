@@ -7,6 +7,7 @@
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-body">
+		<h1>Clusters</h1>
 		<?php
 		$result = array();
 		if (!empty($data))
@@ -26,10 +27,6 @@
 
 			$count_centroid = count($result['centroids']);
 			$col_width_centroid = (12/$count_centroid);
-
-			// echo "<pre>";
-			// print_r ($result);
-			// echo "</pre>";
 
 			foreach ($result['centroids'] as $centroid)
 			{
@@ -56,6 +53,9 @@
 			{
 				?>
 				<div class="row">
+				<div class="col-lg-12">
+					<h1>Itersasi <?= ($iteration+1) ?></h1>
+				</div>
 				<?php
 				foreach ($result['clusters']['iteration_'.($iteration+1)] as $cluster)
 				{
