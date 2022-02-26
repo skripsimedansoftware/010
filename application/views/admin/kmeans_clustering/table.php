@@ -7,6 +7,16 @@
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-body">
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/') ?>" class="btn btn-<?= empty($jenis)?'success':'primary' ?>">Semua Data</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/pencurian-motor') ?>" class="btn btn-<?= $jenis == 'pencurian-motor'?'success':'primary' ?>">Pencurian Motor</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/pencurian-ringan') ?>" class="btn btn-<?= $jenis == 'pencurian-ringan'?'success':'primary' ?>">Pencurian Ringan</a>
+		<p>
+			<br>
+			<!-- <a class="btn btn-info">Pilih Centroid</a> -->
+		</p>
+	</div>
+	<div class="box">
+		<div class="box-body">
 			<table class="table table-hover table-striped datatable">
 				<thead>
 					<th>No</th>

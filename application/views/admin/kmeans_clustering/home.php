@@ -7,9 +7,44 @@
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-body">
-		<h1>Clusters</h1>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/') ?>" class="btn btn-<?= empty($jenis)?'success':'primary' ?>">Semua Data</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/pencurian-motor') ?>" class="btn btn-<?= $jenis == 'pencurian-motor'?'success':'primary' ?>">Pencurian Motor</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/pencurian-ringan') ?>" class="btn btn-<?= $jenis == 'pencurian-ringan'?'success':'primary' ?>">Pencurian Ringan</a>
+		<p>
+			<br>
+			<!-- <a class="btn btn-info">Pilih Centroid</a> -->
+		</p>
+	</div>
+	<div class="box">
+		<div class="box-body">
+		<div class="col-lg-12">
+			<h3>Centroid Awal</h3>
+		</div>
 		<?php
 		$result = array();
+		$initial_centroid = $kmeans->getInitialCentroid();
+		$col_width_centroid = (12/count($initial_centroid));
+		foreach ($initial_centroid as $centroid)
+		{
+			?>
+			<div class="col-lg-<?= $col_width_centroid;?> col-md-<?= $col_width_centroid;?> col-xs-<?= $col_width_centroid;?>">
+				<table class="table table-hover table-striped table-bordered">
+					<?php
+					foreach ($centroid as $key => $val)
+					{
+						?>
+						<tr>
+							<td><?= $key ?></td>
+							<td><?= $val ?></td>
+						</tr>
+						<?php
+					}
+					?>
+				</table>
+			</div>
+			<?php
+		}
+
 		if (!empty($data))
 		{
 			$i = 1;
@@ -27,6 +62,12 @@
 
 			$count_centroid = count($result['centroids']);
 			$col_width_centroid = (12/$count_centroid);
+
+			?>
+			<div class="col-lg-12">
+				<h3>Centroid Pusat</h3>
+			</div>
+			<?php
 
 			foreach ($result['centroids'] as $centroid)
 			{
@@ -54,7 +95,7 @@
 				?>
 				<div class="row">
 				<div class="col-lg-12">
-					<h1>Itersasi <?= ($iteration+1) ?></h1>
+					<h3>Itersasi <?= ($iteration+1) ?></h3>
 				</div>
 				<?php
 				foreach ($result['clusters']['iteration_'.($iteration+1)] as $cluster)
@@ -101,8 +142,6 @@
 			echo '<center><h3>Data Tidak Tersedia</h3></center>';
 		}
 		?>
-		</div>
-		<div class="box-footer">
 		</div>
 	</div>
 </section>

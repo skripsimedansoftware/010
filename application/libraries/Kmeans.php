@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Algorithm
  * @subpackage Kmeans

@@ -100,7 +100,8 @@ class MY_Model extends \CI_Model
 	 */
 	public function create($data = array())
 	{
-		return $this->db->insert($this->table, $data);
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
 	}
 
 	/**

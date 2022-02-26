@@ -5,6 +5,16 @@
 
 <!-- Main content -->
 <section class="content container-fluid">
+	<div class="box">
+		<div class="box-body">
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/') ?>" class="btn btn-<?= empty($jenis)?'success':'primary' ?>">Semua Data</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/pencurian-motor') ?>" class="btn btn-<?= $jenis == 'pencurian-motor'?'success':'primary' ?>">Pencurian Motor</a>
+		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular/pencurian-ringan') ?>" class="btn btn-<?= $jenis == 'pencurian-ringan'?'success':'primary' ?>">Pencurian Ringan</a>
+		<p>
+			<br>
+			<!-- <a class="btn btn-info">Pilih Centroid</a> -->
+		</p>
+	</div>
 	<?php if ($this->session->has_userdata('update')) : ?>
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -20,7 +30,6 @@
 					<th>Tanggal</th>
 					<th>Jenis</th>
 					<th>Desa</th>
-					<th>TKP</th>
 					<th>Kerugian Nominal</th>
 					<th>Opsi</th>
 				</thead>
@@ -32,7 +41,6 @@
 							<td><?= nice_date($value['tanggal'], 'd-m-Y') ?></td>
 							<td><?= $value['jenis'] == 'pencurian-motor'?'Pencurian Sepeda Motor':'Pencurian Ringan' ?></td>
 							<td><?= $this->desa->read(array('id' => $value['desa']))->row()->nama ?></td>
-							<td><?php //$this->tkp->read(array('id' => $value['tkp']))->row()->nama ?></td>
 							<td><?= $value['kerugian_nominal'] ?></td>
 							<td>
 								<a href="<?= base_url($this->router->fetch_class().'/laporan_kriminal/edit/'.$value['id']) ?>" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>

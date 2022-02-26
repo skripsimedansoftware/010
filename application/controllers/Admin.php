@@ -444,7 +444,10 @@ class Admin extends CI_Controller {
 					{
 						if ($this->input->method() == 'post')
 						{
-							$data = array();
+							$data = array(
+								'dusun' => $this->input->post('dusun'),
+								'nama' => $this->input->post('nama')
+							);
 							$this->jalan->update($data, array('id' => $id));
 							$this->session->set_flashdata('update', 'Data jalan telah diperbaharui');
 							redirect(base_url($this->router->fetch_class().'/jalan'), 'refresh');
@@ -521,7 +524,6 @@ class Admin extends CI_Controller {
 							'jalan' => $this->input->post('jalan'),
 							'tkp' => $this->input->post('tkp'),
 							'kerugian_nominal' => $this->input->post('nominal_kerugian'),
-							'aksi' => $this->input->post('aksi'),
 							'deskripsi' => $this->input->post('detail'),
 						);
 
@@ -547,7 +549,23 @@ class Admin extends CI_Controller {
 				{
 					if ($this->input->method() == 'post')
 					{
+						$data = array(
+							'nomor_surat' => $this->input->post('nomor_surat'),
+							'tanggal' => $this->input->post('tanggal'),
+							'jenis' => $this->input->post('jenis'),
+							'desa' => $this->input->post('desa'),
+							'dusun' => $this->input->post('dusun'),
+							'jalan' => $this->input->post('jalan'),
+							'tkp' => $this->input->post('tkp'),
+							'kerugian_nominal' => $this->input->post('nominal_kerugian'),
+							'deskripsi' => $this->input->post('detail'),
+						);
 
+						$data['tanggal'] = nice_date($data['tanggal'], 'Y-m-d');
+						$data['kerugian_nominal'] = str_replace([',', '.00'], '', $data['kerugian_nominal']);
+						$this->laporan_kriminal->update($data, array('id' => $id));
+						$this->session->set_flashdata('update', 'Data laporan kriminal telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/laporan_kriminal'), 'refresh');
 					}
 					else
 					{
@@ -606,18 +624,26 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function kmeans_clustering($mode = NULL)
+	public function kmeans_clustering($mode = NULL, $jenis = NULL)
 	{
-		$laporan_kriminal = $this->laporan_kriminal->read()->result();
+		$where = array();
+		if (!empty($jenis))
+		{
+			$where = array('jenis' => $jenis);
+		}
+
+		$laporan_kriminal = $this->laporan_kriminal->read($where)->result();
 
 		switch ($mode) {
 			case 'data_tabular':
 				$data['data'] = $laporan_kriminal;
+				$data['jenis'] = $jenis;
 				$this->template->load('kmeans_clustering/table', $data);
 			break;
 
 			default:
 				$data['data'] = $laporan_kriminal;
+				$data['jenis'] = $jenis;
 				$kmeans = $this->kmeans;
 				$kmeans->setAttributes(array(
 					'Jenis', 'Desa', 'Dusun', 'Jalan', 'TKP', 'Nominal Kerugian'
@@ -638,10 +664,17 @@ class Admin extends CI_Controller {
 				if (!empty($laporan_kriminal))
 				{
 					$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
-					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):[1, 2, 3]);
+					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):array());
 
 					$kmeans->setClusterCount($cluster_count); // Set amount of cluster
-					$kmeans->setCentroid($centroid);
+					if (!empty($centroid))
+					{
+						$kmeans->setCentroid($centroid);
+					}
+					else
+					{
+						$this->kmeans->generateCentroids();
+					}
 				}
 
 				$data['kmeans'] = $kmeans;
@@ -661,14 +694,12 @@ class Admin extends CI_Controller {
 		$import = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
 		$import->setActiveSheetIndex(0);
 		$import = $import->getActiveSheet()->toArray();
-
-		array_shift($import);
+		unset($import[0]);
 		$import = array_map(function($value) {
-
 			if (!empty($value[1]))
 			{
 				$nama_desa = ucwords(strtolower(trim($value[4])));
-				$desa = $this->desa->read(array('nama' => $nama_desa));
+				$desa = $this->desa->read(array('sha1' => sha1(strtolower($nama_desa))));
 				if ($desa->num_rows() >= 1)
 				{
 					$desa = $desa->row()->id;
@@ -676,12 +707,13 @@ class Admin extends CI_Controller {
 				else
 				{
 					$desa = $this->desa->create(array(
-						'nama' => $nama_desa
+						'nama' => $nama_desa,
+						'sha1' => sha1(strtolower($nama_desa))
 					), TRUE);
 				}
 
 				$nama_dusun = ucwords(strtolower(trim($value[5])));
-				$dusun = $this->dusun->read(array('nama' => $nama_dusun));
+				$dusun = $this->dusun->read(array('sha1' => sha1(strtolower($nama_dusun))));
 				if ($dusun->num_rows() >= 1)
 				{
 					$dusun = $dusun->row()->id;
@@ -690,14 +722,15 @@ class Admin extends CI_Controller {
 				{
 					$dusun = $this->dusun->create(array(
 						'desa' => $desa,
-						'nama' => $nama_dusun
+						'nama' => $nama_dusun,
+						'sha1' => sha1(strtolower($nama_dusun))
 					), TRUE);
 				}
 
 				if (strlen($value[6]) > 1)
 				{
 					$nama_jalan = ucwords(strtolower(trim($value[6])));
-					$jalan = $this->jalan->read(array('nama' => $nama_jalan));
+					$jalan = $this->jalan->read(array('sha1' => sha1(strtolower($nama_jalan))));
 					if ($jalan->num_rows() >= 1)
 					{
 						$jalan = $jalan->row()->id;
@@ -706,7 +739,8 @@ class Admin extends CI_Controller {
 					{
 						$jalan = $this->jalan->create(array(
 							'dusun' => $dusun,
-							'nama' => $nama_jalan
+							'nama' => $nama_jalan,
+							'sha1' => sha1(strtolower($nama_jalan))
 						), TRUE);
 					}
 				}
@@ -718,7 +752,7 @@ class Admin extends CI_Controller {
 				if (strlen($value[7]) > 1)
 				{
 					$nama_tkp = ucwords(strtolower(trim($value[7])));
-					$tkp = $this->tkp->read(array('nama' => $nama_tkp));
+					$tkp = $this->tkp->read(array('sha1' => sha1(strtolower($nama_tkp))));
 					if ($tkp->num_rows() >= 1)
 					{
 						$tkp = $tkp->row()->id;
@@ -726,7 +760,8 @@ class Admin extends CI_Controller {
 					else
 					{
 						$tkp = $this->tkp->create(array(
-							'nama' => $nama_tkp
+							'nama' => $nama_tkp,
+							'sha1' => sha1(strtolower($nama_tkp))
 						), TRUE);
 					}
 				}
@@ -734,7 +769,6 @@ class Admin extends CI_Controller {
 				{
 					$tkp = 0;
 				}
-
 
 				return array(
 					'nomor_surat' => $value[1],

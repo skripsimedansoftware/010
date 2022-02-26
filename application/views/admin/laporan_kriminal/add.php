@@ -74,16 +74,6 @@
 						<?php echo form_error('nominal_kerugian', '<span class="help-block error">', '</span>'); ?>
 					</div>
 					<div class="form-group">
-						<label>Aksi</label>
-						<select name="aksi" class="form-control">
-							<option value="">Pilih Aksi Kejahatan</option>
-							<option <?= set_value('aksi') == 'pembunuhan'?'selected':'' ?> value="pembunuhan">Pembunuhan</option>
-							<option <?= set_value('aksi') == 'pencopetan'?'selected':'' ?> value="pencopetan">Pencopetan</option>
-							<option <?= set_value('aksi') == 'pencurian'?'selected':'' ?> value="pencurian">Pencurian</option>
-						</select>
-						<?php echo form_error('aksi', '<span class="help-block error">', '</span>'); ?>
-					</div>
-					<div class="form-group">
 						<label>Detail Kejadian</label>
 						<textarea name="detail" class="form-control" placeholder="Detail Kejadian"></textarea>
 						<?php echo form_error('detail', '<span class="help-block error">', '</span>'); ?>
