@@ -204,14 +204,34 @@
 			OpenStreetMap.setView(new L.LatLng(DEFAULT_COORDINATE[0], DEFAULT_COORDINATE[1]), 12);
 			OpenStreetMap.addLayer(osmTile);
 
+			var find_value = (arrayName, searchKey, searchValue) => {
+				let find = arrayName.findIndex(i => i[searchKey] == searchValue);
+				return (find !== -1)?find:false;
+			}
+
 			var list = new Array();
+			var count_data = new Array();
 			for (c = 0; c < clusters.length; c++) {
 				list[c] = L.layerGroup();
 				for (item = 0; item < clusters[c].length; item++)
 				{
+					var find_index = find_value(count_data, 'id', clusters[c][item].id);
+					if (find_index === false) {
+						count_data.push({ id: clusters[c][item].id, count: 100, lat: clusters[c][item].lat, lon: clusters[c][item].lon });
+					} else {
+						count_data[find_index].count = count_data[find_index].count+100;
+					}
+
+					var find_count = find_value(count_data, 'id', clusters[c][item].id);
+					find_count = count_data[find_count];
+
 					L.marker([parseFloat(clusters[c][item].lat), parseFloat(clusters[c][item].lon)]).addTo(OpenStreetMap);
-					console.log('added')
 				}
+			}
+
+			for (r = 0; r < count_data.length; r++)
+			{
+				L.circle([parseFloat(count_data[r].lat), parseFloat(count_data[r].lon)], { radius: (count_data[r].count) }).addTo(OpenStreetMap);
 			}
 
 			</script>
