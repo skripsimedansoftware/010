@@ -8,14 +8,16 @@
 	<form method="post" action="<?= base_url($this->router->fetch_class().'/desa/edit/'.$data['id']) ?>">
 		<div class="box">
 			<div class="box-body">
-				<div class="form-group">
-					<label>Nama</label>
-					<input type="text" class="form-control" name="nama" placeholder="Nama" value="<?= $data['nama'] ?>">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label>Nama</label>
+						<input type="text" class="form-control" name="nama" placeholder="Nama" value="<?= $data['nama'] ?>">
+					</div>
 				</div>
+				<input type="hidden" name="coordinate_lat">
+				<input type="hidden" name="coordinate_lon">
+				<div class="col-lg-6 openstreetmap" id="openstreetmap"></div>
 			</div>
-			<input type="hidden" name="coordinate_lat">
-			<input type="hidden" name="coordinate_lon">
-			<div class="col-lg-6 openstreetmap" id="openstreetmap"></div>
 			<div class="box-footer">
 				<a href="<?= base_url($this->router->fetch_class().'/desa') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Batal</a>
 				<button class="btn btn-success"><i class="fa fa-save"></i> Simpan Perubahan</button>
@@ -29,10 +31,16 @@
  * Reference https://leafletjs.com/SlavaUkraini/reference.html
  */
 
-const DEFAULT_COORDINATE = [1.8576037, 100.1506541];
 
+<?php if (!empty($data['lat']) && !empty($data['lon'])) : ?>
+const DEFAULT_COORDINATE = [<?= $data['lat'] ?>, <?= $data['lon'] ?>];
+$('input[name="coordinate_lat"]').val(<?= $data['lat'] ?>);
+$('input[name="coordinate_lon"]').val(<?= $data['lon'] ?>);
+<?php else: ?>
+const DEFAULT_COORDINATE = [1.8576037, 100.1506541];
 $('input[name="coordinate_lat"]').val(DEFAULT_COORDINATE[0]);
 $('input[name="coordinate_lon"]').val(DEFAULT_COORDINATE[1]);
+<?php endif; ?>
 
 // initial map
 const OpenStreetMap = L.map('openstreetmap');

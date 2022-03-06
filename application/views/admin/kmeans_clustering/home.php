@@ -211,6 +211,7 @@
 
 			var list = new Array();
 			var count_data = new Array();
+
 			for (c = 0; c < clusters.length; c++) {
 				list[c] = L.layerGroup();
 				for (item = 0; item < clusters[c].length; item++)
