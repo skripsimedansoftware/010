@@ -17,6 +17,35 @@
 	</div>
 	<div class="box">
 		<div class="box-body">
+			<table class="datatable">
+				<thead>
+					<th>No</th>
+					<th>Nomor Surat</th>
+					<th>Tanggal</th>
+					<th>Jenis</th>
+					<th>Desa</th>
+					<th>Kerugian Nominal</th>
+				</thead>
+				<tbody>
+					<?php foreach ($data as $key => $value):?>
+						<tr>
+							<td><?= $key+1 ?></td>
+							<td><?= $value->nomor_surat ?></td>
+							<td><?= nice_date($value->tanggal, 'd-m-Y') ?></td>
+							<td><?= $value->jenis == 'pencurian-motor'?'Pencurian Sepeda Motor':'Pencurian Ringan' ?></td>
+							<td><?= $this->desa->read(array('id' => $value->desa))->row()->nama ?></td>
+							<td><?= $value->kerugian_nominal ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+
+<section class="content container-fluid">
+	<div class="box">
+		<div class="box-body">
 		<div class="col-lg-12">
 			<h3>Centroid Awal</h3>
 		</div>

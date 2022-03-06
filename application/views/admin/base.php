@@ -296,7 +296,14 @@ $("input[data-type='currency']").on({
 
 
 $('.datatable').DataTable({
-	responsive: true
+	responsive: false,
+	dom: 'Bfrtip',
+	buttons: [
+		'copyHtml5',
+		'excelHtml5',
+		'csvHtml5',
+		'pdfHtml5'
+	]
 });
 $('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
 </script>
