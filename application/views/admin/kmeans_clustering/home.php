@@ -123,48 +123,99 @@
 			{
 				?>
 				<div class="row">
-				<div class="col-lg-12">
-					<h3>Itersasi <?= ($iteration+1) ?></h3>
-				</div>
-				<?php
-				foreach ($result['clusters']['iteration_'.($iteration+1)] as $cluster)
-				{
-					?>
-					<div class="col-lg-<?= $col_width_centroid;?>">
-						<table class="table table-hover table-striped table-bordered">
-							<thead>
-								<th>Jenis</th>
-								<th>Desa</th>
-								<th>Dusun</th>
-								<th>Jalan</th>
-								<th>TKP</th>
-								<th>Nominal Kerugian</th>
-							</thead>
-							<tbody>
-								<?php
-								foreach ($cluster as $item)
-								{
-									?>
-									<tr>
-										<td><?= $item['Jenis'] ?></td>
-										<td><?= $item['Desa'] ?></td>
-										<td><?= $item['Dusun'] ?></td>
-										<td><?= $item['Jalan'] ?></td>
-										<td><?= $item['TKP'] ?></td>
-										<td><?= $item['Nominal Kerugian'] ?></td>
-									</tr>
-									<?php
-								}
-								?>
-							</tbody>
-						</table>
+					<div class="col-lg-12">
+						<h3>Itersasi <?= ($iteration+1) ?></h3>
 					</div>
 					<?php
-				}
-				?>
+					foreach ($result['clusters']['iteration_'.($iteration+1)] as $cluster)
+					{
+						?>
+						<div class="col-lg-<?= $col_width_centroid;?>">
+							<table class="table table-hover table-striped table-bordered">
+								<thead>
+									<th>Jenis</th>
+									<th>Desa</th>
+									<th>Dusun</th>
+									<th>Jalan</th>
+									<th>TKP</th>
+									<th>Nominal Kerugian</th>
+								</thead>
+								<tbody>
+									<?php
+									foreach ($cluster as $item)
+									{
+										?>
+										<tr>
+											<td><?= $item['Jenis'] ?></td>
+											<td><?= $item['Desa'] ?></td>
+											<td><?= $item['Dusun'] ?></td>
+											<td><?= $item['Jalan'] ?></td>
+											<td><?= $item['TKP'] ?></td>
+											<td><?= $item['Nominal Kerugian'] ?></td>
+										</tr>
+										<?php
+									}
+									?>
+								</tbody>
+							</table>
+						</div>
+						<?php
+					}
+					?>
 				</div>
 				<?php
 			}
+			?>
+			<div class="row">
+				<div class="col-lg-12 openstreetmap_large" id="openstreetmap"></div>
+			</div>
+			<script type="text/javascript">
+			<?php
+			$last_cluster = end($result['clusters']);
+
+			$json_array = array();
+
+			for ($c = 0; $c < count($last_cluster); $c++)
+			{
+				$json_array[$c] = array();
+
+				foreach ($last_cluster[$c] as $data)
+				{
+					$desa = $this->desa->read(array('id' => $data['Desa']))->row_array();
+					array_push($json_array[$c], $desa);
+				}
+			}
+
+			echo 'var clusters = '.json_encode($json_array);
+			?>
+
+			const DEFAULT_COORDINATE = [1.8576037, 100.1506541];
+
+			// initial map
+			const OpenStreetMap = L.map('openstreetmap');
+
+			// initial osm tile url
+			const osmTileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+			const attrib = '<?= $this->config->item('app_name'); ?> <small>By</small> <a href="<?= base_url() ?>"><?= $this->config->item('app_user'); ?><a>';
+			const osmTile = new L.TileLayer(osmTileUrl, { minZoom: 2, maxZoom: 20, attribution: attrib });
+
+			// add layer
+			// https://leafletjs.com/reference-1.6.0.html#layer
+			OpenStreetMap.setView(new L.LatLng(DEFAULT_COORDINATE[0], DEFAULT_COORDINATE[1]), 12);
+			OpenStreetMap.addLayer(osmTile);
+
+			var list = new Array();
+			for (c = 0; c < clusters.length; c++) {
+				list[c] = L.layerGroup();
+				for (item = 0; item < clusters[c].length; item++)
+				{
+					L.marker([parseFloat(clusters[c][item].lat), parseFloat(clusters[c][item].lon)]).addTo(OpenStreetMap);
+					console.log('added')
+				}
+			}
+
+			</script>
+			<?php
 		}
 		else
 		{

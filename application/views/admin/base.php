@@ -13,6 +13,8 @@
 	<link rel="stylesheet" href="<?= base_url('assets/plugins/') ?>SweetAlert2/dist/sweetalert2.min.css">
 	<link rel="stylesheet" href="<?= base_url('assets/plugins/') ?>DataTables/datatables.min.css">
 
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	<script src="<?= base_url('assets/adminlte/') ?>bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,6 +25,17 @@
 	<!-- Google Font -->
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
 	<style type="text/css">
+	.openstreetmap {
+		border: 1px solid red;
+		height: 350px;
+		background: #f4f4f4;
+	}
+	.openstreetmap_large {
+		height: 800px;
+		width: 100%;
+		background: #f4f4f4;
+	}
+
 	.help-block.error {
 		color: red;
 	}

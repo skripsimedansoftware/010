@@ -6,7 +6,7 @@
  * @author Agung Dirgantara <agungmasda29@gmail.com>
  */
 
-$config['app_name'] = 'Pemetaan Kejahatan';
+$config['app_name'] = 'Pemetaan Kriminologi';
 $config['app_user'] = 'Dinda Budiarti';
 
 /* End of file app.php */

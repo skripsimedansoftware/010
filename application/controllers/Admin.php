@@ -165,7 +165,9 @@ class Admin extends CI_Controller {
 					if ($this->form_validation->run() == TRUE)
 					{
 						$data = array(
-							'nama' => $this->input->post('nama')
+							'nama' => $this->input->post('nama'),
+							'lat' => $this->input->post('coordinate_lat'),
+							'lon' => $this->input->post('coordinate_lon')
 						);
 						$this->desa->create($data);
 						$this->session->set_flashdata('update', 'Data desa berhasil ditambahkan');
@@ -192,7 +194,9 @@ class Admin extends CI_Controller {
 						if ($this->input->method() == 'post')
 						{
 							$data = array(
-								'nama' => $this->input->post('nama')
+								'nama' => $this->input->post('nama'),
+								'lat' => $this->input->post('coordinate_lat'),
+								'lon' => $this->input->post('coordinate_lon')
 							);
 							$this->desa->update($data, array('id' => $id));
 							$this->session->set_flashdata('update', 'Data desa telah diperbaharui');
