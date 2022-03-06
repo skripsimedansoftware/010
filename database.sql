@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 20, 2022 at 02:24 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.31
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2022 at 10:21 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `desa` (
   `id` int(2) NOT NULL,
-  `nama` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nama` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lat` double DEFAULT NULL,
+  `lon` double DEFAULT NULL,
+  `sha1` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -41,7 +44,8 @@ CREATE TABLE `desa` (
 CREATE TABLE `dusun` (
   `id` int(3) NOT NULL,
   `desa` int(2) NOT NULL,
-  `nama` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nama` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sha1` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -68,7 +72,8 @@ CREATE TABLE `email_confirm` (
 CREATE TABLE `jalan` (
   `id` int(3) NOT NULL,
   `dusun` int(3) NOT NULL,
-  `nama` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nama` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sha1` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +92,7 @@ CREATE TABLE `laporan-kriminal` (
   `jalan` int(3) NOT NULL DEFAULT 0,
   `tkp` int(3) DEFAULT 0,
   `kerugian_nominal` int(2) NOT NULL,
-  `deskripsi` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `deskripsi` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -98,7 +103,8 @@ CREATE TABLE `laporan-kriminal` (
 
 CREATE TABLE `tkp` (
   `id` int(6) NOT NULL,
-  `nama` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nama` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sha1` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

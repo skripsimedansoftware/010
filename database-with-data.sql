@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 04, 2022 at 01:48 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.31
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2022 at 10:20 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,6 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `desa` (
   `id` int(2) NOT NULL,
   `nama` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lat` double DEFAULT NULL,
+  `lon` double DEFAULT NULL,
   `sha1` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -37,16 +39,16 @@ CREATE TABLE `desa` (
 -- Dumping data for table `desa`
 --
 
-INSERT INTO `desa` (`id`, `nama`, `sha1`) VALUES
-(1, 'Desa Aek Batu', '947bfa459d42d0fcebf0581245dc09bd0ae71f09'),
-(2, 'Desa Asam Jawa', 'e586812d341fa69548378982b0dc47e6aa1b80f9'),
-(3, 'Desa Aek Raso', '6d7676b5f5c1d6340033132f253c948d3897e147'),
-(4, 'Desa Rasau', '0389e92a1cd71f463d3ac233b5cd5288a0911382'),
-(5, 'Desa Torganda', '6b8ae275f0a0d3313e82198575c2020ab923947e'),
-(6, 'Desa Bagai', '9cfaeb63542680ace182652014660736428fdea4'),
-(7, 'Desa Sei Meranti', '9368abee7593a702234acfc740c527c7ba51bebf'),
-(8, 'Desa Torgamba', '04b50170e2e981362d76aa73eb60985ddad8fedf'),
-(9, 'Desa Parungan', '5a47a18126cb7bbdd074a15512aabb0a34b82a22');
+INSERT INTO `desa` (`id`, `nama`, `lat`, `lon`, `sha1`) VALUES
+(1, 'Desa Aek Batu', NULL, NULL, '947bfa459d42d0fcebf0581245dc09bd0ae71f09'),
+(2, 'Desa Asam Jawa', NULL, NULL, 'e586812d341fa69548378982b0dc47e6aa1b80f9'),
+(3, 'Desa Aek Raso', NULL, NULL, '6d7676b5f5c1d6340033132f253c948d3897e147'),
+(4, 'Desa Rasau', NULL, NULL, '0389e92a1cd71f463d3ac233b5cd5288a0911382'),
+(5, 'Desa Torganda', NULL, NULL, '6b8ae275f0a0d3313e82198575c2020ab923947e'),
+(6, 'Desa Bagai', NULL, NULL, '9cfaeb63542680ace182652014660736428fdea4'),
+(7, 'Desa Sei Meranti', NULL, NULL, '9368abee7593a702234acfc740c527c7ba51bebf'),
+(8, 'Desa Torgamba', NULL, NULL, '04b50170e2e981362d76aa73eb60985ddad8fedf'),
+(9, 'Desa Parungan', NULL, NULL, '5a47a18126cb7bbdd074a15512aabb0a34b82a22');
 
 -- --------------------------------------------------------
 
@@ -70,7 +72,7 @@ INSERT INTO `dusun` (`id`, `desa`, `nama`, `sha1`) VALUES
 (2, 1, 'Dusun Simpang Empat', '61e17ccf591425a67f9d5913b8d339ec9af4eeb2'),
 (3, 2, 'Dusun Kampung Mangga', '9e2f7951d6015a33e541a62e24bc00e31d849674'),
 (4, 1, 'Dusun Menanti', '3743c71ae7e0a3ae2c70e90066a164dc2dd797a2'),
-(5, 2, 'Dusun Al-amin Kebun Aek Batu', 'cd5c43ce07e546389bc73587fccaac5411234c12'),
+(5, 1, 'Dusun Al-Amin Kebun Aek Batu', 'cd5c43ce07e546389bc73587fccaac5411234c12'),
 (6, 2, 'Dusun Aek Batu Timur', '6fa30d07b78ac529bb7dbb08fb6eb24fd907f6a4'),
 (7, 1, 'Dusun Cinta Makmur', '1ad1cca4c7dc658f2c5ea6206b87ee51118ae520'),
 (8, 1, 'Dusun Cikampak Permai', '07dc134b887d987ef26032c0142d7575d7015734'),
@@ -83,19 +85,19 @@ INSERT INTO `dusun` (`id`, `desa`, `nama`, `sha1`) VALUES
 (15, 2, 'Dusun Pir Bun C', '5498d14444ffadd4d031f88f106a2936028a5f78'),
 (16, 3, 'Dusun Cemara', '6cd658ba0c84622b6374219a303242441b374cde'),
 (17, 2, 'Dusun Teluk Pinang', '4b7f3dd799f9926382f5c096861b2d19d7b82b8e'),
-(18, 1, 'Dusun Pasar Xii', 'a42b76880793f724557df35fed016dd0e5baf16a'),
+(18, 1, 'Dusun Pasar XII', 'a42b76880793f724557df35fed016dd0e5baf16a'),
 (19, 4, 'Dusun Lantosan', '0479dc63f0f5a76de9e0620905462fe69a77eecc'),
-(20, 2, 'Dusun Al-amin', 'b30385bb96aeb1de99e4526afc928d47dbad7618'),
+(20, 1, 'Dusun Al-Amin', 'b30385bb96aeb1de99e4526afc928d47dbad7618'),
 (21, 5, 'Dusun Cindur', '1949700bccaed5beaff2d567746e138f8824adb3'),
 (22, 2, 'Dusun Aek Batu Selatan', '90d6e58ce45fd5b407261815ce45f4cce9d7380a'),
-(23, 2, 'Dusun Sumber Jo I Pasar 1a', '92ba0ad7fcac825607b33dfbf9b1a1bfb90d1ffc'),
+(23, 1, 'Dusun Sumber Jo I Pasar 1A', '92ba0ad7fcac825607b33dfbf9b1a1bfb90d1ffc'),
 (24, 6, 'Dusun Perumahan', '7580871dcca7c14af54cfd0456832d92fa38e7de'),
 (25, 2, 'Dusun Aek Batu Utara', '339612e071d305492bfbb88adeed71f36efc71fc'),
 (26, 1, 'Dusun Bakaran Batu', '764063f2898179e73fc7cbd2aa56edd8deaf6215'),
 (27, 7, 'Dusun Bangun Raya Sari', 'dcc04026c535ea35055de61bd93c8f7ea17f889e'),
 (28, 2, 'Dusun Milano', '15ccebe631548d513ce9b3ac833a2917b0d54a57'),
 (29, 8, 'Dusun Matahari', '176bc3f00b20de307e842708003132a64e9f2b82'),
-(30, 1, 'Dusun Simpang Iv', '1bd95cf51bfcee5cbd7043d380f45b2e13b40d3d'),
+(30, 1, 'Dusun Simpang IV', '1bd95cf51bfcee5cbd7043d380f45b2e13b40d3d'),
 (31, 9, 'Dusun Kampung Banten', 'fb924608b48d424b1e6d9a35f5748989d259506a');
 
 -- --------------------------------------------------------
@@ -260,22 +262,22 @@ INSERT INTO `tkp` (`id`, `nama`, `sha1`) VALUES
 (16, 'Budi Utama', '92741779a4ac77da8c343ad6fdb1e199c721fcce'),
 (17, 'Warnet Golden', 'b9a63a983e3c8562377bc52402b671db3da7ba7b'),
 (18, 'SPBU 13214103', '200bd326ebc106b4e95548970efe1686a2e63e23'),
-(19, 'Ram', '77c7960e890deddebb7ff2e55e340d2ed1708368'),
+(19, 'RAM', '77c7960e890deddebb7ff2e55e340d2ed1708368'),
 (20, 'Gang Pihara', '45921541d8a956a9c57bc0a250938087763ec685'),
 (21, 'PT. Wisu Indo Jaya Blok A', '4e94919c5aecd5e3c5ce563ae1408a1232ec5217'),
 (22, 'Tio-tio Blok A 48', '452d85089b2b934d5ba961e231c47161802f0dd2'),
-(23, 'Pasar Ix', '38e3e96a8b2426827f359e28cdce1b89c8922f9a'),
+(23, 'Pasar IX', '38e3e96a8b2426827f359e28cdce1b89c8922f9a'),
 (24, 'PT. Wisu Indo Jaya Blok F', 'cd9b697e03220ded97f37739c5a616876cf07464'),
-(25, 'PT. Wisu Indo Jaya Blok A Petak Ii', 'a521f8a846f9c7d486f7efa82cabb845086ac1bf'),
+(25, 'PT. Wisu Indo Jaya Blok A Petak II', 'a521f8a846f9c7d486f7efa82cabb845086ac1bf'),
 (26, 'SPBU', '7a4150e958447e607c997daea2e25078ed58411d'),
 (27, 'Toko Mitra Ponsel', '3e371ce01033b8089539774601a2fcebb47145ca'),
 (28, 'PT. Nagamas Agro Mulia Kebun Cikampak', '734b0f35482414c0a229097e835a0ac31dfc25a3'),
 (29, 'Blok C', '005043b517781d2e1ae21cf528d596bdc04cff8d'),
 (30, 'Ladang Perseorangan', 'bc0151130cefcbd2c6194f4424174ebd8f98c8af'),
-(31, 'Blok C Asam Jawa Pt. Wisu Indo Jaya', 'ec7af08b7ed4e994f8f6e63edb7810a0cc5e8830'),
-(32, 'Pks Cindur Torganda', '4b5a682ce8b84fe4bb4f3c32348ce3ccf7242e92'),
-(33, 'Samping Tembok Pks Cindur Pt. Torganda', 'a60362ff52c4967bc2e978a8b3b9d8e9a418b135'),
-(34, 'Depan Pmks Mab', '0ceaba1e7da82114d5358ccd2b69c1dc6a5463db'),
+(31, 'Blok C Asam Jawa PT. Wisu Indo Jaya', 'ec7af08b7ed4e994f8f6e63edb7810a0cc5e8830'),
+(32, 'PKS Cindur Torganda', '4b5a682ce8b84fe4bb4f3c32348ce3ccf7242e92'),
+(33, 'Samping Tembok PKS Cindur PT. Torganda', 'a60362ff52c4967bc2e978a8b3b9d8e9a418b135'),
+(34, 'Depan PMKS MAB', '0ceaba1e7da82114d5358ccd2b69c1dc6a5463db'),
 (35, 'Depan Alfamart', 'f502e82c25bba5a06cf68ffa87ecd02371c1a975'),
 (36, 'Kafe Melly', '2ef5c9a91ce5e7bbf9ca4853ee98d750dce08af0'),
 (37, 'Simpang Sopo Godang', '7ee6941e88e4d6a2aee7a8f5b096222197e1f933'),
@@ -286,14 +288,14 @@ INSERT INTO `tkp` (`id`, `nama`, `sha1`) VALUES
 (42, 'Cafe Berta', '8fca77af2ddc21f797f02a01f52efadf62265e6a'),
 (43, 'Doorsmer Fajar', '3d15af1964373f53c1a380c2b1ab5e955313517c'),
 (44, 'Depan Rumah Makan Sileman', '948113e5263e22ef5ca9845ebf02172758476a34'),
-(45, 'Kebun Th', '92866a529c6532a1b590601f0ac782e730aafa68'),
+(45, 'Kebun TH', '92866a529c6532a1b590601f0ac782e730aafa68'),
 (46, 'Simpang Milano', '7ac865f3df2607a0cb5d4e1564989694c3ae1178'),
-(47, 'Pt. Wisu Indo Jaya Blo Ii D', 'a71f7f5e26f9a28c0166f3072344d0b744433cf2'),
-(48, 'Perumahan Pks Torgamba', '5b17f03ff867a86e7fa500d29981fbe3db97018e'),
+(47, 'PT. Wisu Indo Jaya Blo II D', 'a71f7f5e26f9a28c0166f3072344d0b744433cf2'),
+(48, 'Perumahan PKS Torgamba', '5b17f03ff867a86e7fa500d29981fbe3db97018e'),
 (49, 'Depan Warung Robet Hutagaol', 'be76ebfef7cbce4bccd974a1a56e9ac9bcbf318d'),
 (50, 'Tempat Parkir Halaman Rumah', '019625c5656a8e67764c3e5c1085a4f3120dfa68'),
 (51, 'Perumahan Pulo Intan', '3faf3f46159d50e2bc3e49d0fc50aa5fc41de97e'),
-(52, 'Blok A Kebun Pt.wisu Indo Jaya', 'cbfab175e2ed6645f68291396e7cb6a60123ade6');
+(52, 'Blok A Kebun PT.Wisu Indo Jaya', 'cbfab175e2ed6645f68291396e7cb6a60123ade6');
 
 -- --------------------------------------------------------
 
