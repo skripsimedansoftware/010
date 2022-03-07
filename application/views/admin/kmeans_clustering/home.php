@@ -218,7 +218,7 @@
 				{
 					var find_index = find_value(count_data, 'id', clusters[c][item].id);
 					if (find_index === false) {
-						count_data.push({ id: clusters[c][item].id, count: 100, lat: clusters[c][item].lat, lon: clusters[c][item].lon });
+						count_data.push({ id: clusters[c][item].id, cluster: c, count: 100, lat: clusters[c][item].lat, lon: clusters[c][item].lon });
 					} else {
 						count_data[find_index].count = count_data[find_index].count+100;
 					}
@@ -226,13 +226,38 @@
 					var find_count = find_value(count_data, 'id', clusters[c][item].id);
 					find_count = count_data[find_count];
 
-					L.marker([parseFloat(clusters[c][item].lat), parseFloat(clusters[c][item].lon)]).addTo(OpenStreetMap);
+					L.marker([parseFloat(clusters[c][item].lat), parseFloat(clusters[c][item].lon)], {
+					}).addTo(OpenStreetMap);
 				}
 			}
 
 			for (r = 0; r < count_data.length; r++)
 			{
-				L.circle([parseFloat(count_data[r].lat), parseFloat(count_data[r].lon)], { radius: (count_data[r].count) }).addTo(OpenStreetMap);
+				var color = '';
+				var fill_color = '';
+
+				if (count_data[r].cluster == 0)
+				{
+					color = 'blue';
+					fill_color = '2f44fa';
+				}
+				else if (count_data[r].cluster == 1)
+				{
+					color = 'orange';
+					fill_color = 'ff470a';
+				}
+				else
+				{
+					color = 'red';
+					fill_color = 'ff1e0a';
+				}
+
+				L.circle([parseFloat(count_data[r].lat), parseFloat(count_data[r].lon)], {
+					color: color,
+					fillOpacity: 0.5,
+					fillColor: '#'+fill_color,
+					radius: (count_data[r].count)
+				}).addTo(OpenStreetMap);
 			}
 
 			</script>

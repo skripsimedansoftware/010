@@ -31,9 +31,12 @@
 		background: #f4f4f4;
 	}
 	.openstreetmap_large {
-		height: 800px;
-		width: 100%;
+		height: 400px;
+		width: 60%;
+		margin-left: 10%;
+		margin-right: 10%;
 		background: #f4f4f4;
+		border: 2px solid green;
 	}
 
 	.help-block.error {
