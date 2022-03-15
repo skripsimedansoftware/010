@@ -646,6 +646,7 @@ class Admin extends CI_Controller {
 			break;
 
 			default:
+				// $this->peta_klaster->truncate();
 				$data['data'] = $laporan_kriminal;
 				$data['jenis'] = $jenis;
 				$kmeans = $this->kmeans;
@@ -668,7 +669,7 @@ class Admin extends CI_Controller {
 				if (!empty($laporan_kriminal))
 				{
 					$cluster_count = (!empty($this->input->get('cluster_count'))?$this->input->get('cluster_count'):3);
-					$centroid = (!empty($this->input->get('centroid'))?explode(',', $this->input->get('centroid')):array());
+					$centroid = (!empty($this->input->get('centroid'))?array_reverse($this->input->get('centroid')):array());
 
 					$kmeans->setClusterCount($cluster_count); // Set amount of cluster
 					if (!empty($centroid))

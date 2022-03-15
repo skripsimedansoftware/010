@@ -166,7 +166,7 @@ desired effect
 					</a>
 					<ul class="treeview-menu">
 						<li class="<?= $this->uri->segment(3) == 'data_tabular'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/data_tabular') ?>">Tabular</a></li>
-						<li class="<?= $this->router->fetch_method() == 'kmeans_clustering'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/') ?>">Cluster</a></li>
+						<li class="<?= $this->uri->segment(3) == 'execute'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/') ?>">Cluster</a></li>
 					</ul>
 				</li>
 			</ul>

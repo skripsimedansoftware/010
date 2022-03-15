@@ -20,7 +20,28 @@ class Web extends CI_Controller {
 	 */
 	public function index()
 	{
-		$data['content'] = $this->load->view('web/home');
+		$data['content'] = $this->load->view('web/home', array(), TRUE);
+		$this->load->view('web/base', $data);
+	}
+
+	public function mapping_global()
+	{
+		$data['data'] = $this->peta_klaster->read(array('jenis' => 'global'))->result();
+		$data['content'] = $this->load->view('web/mapping', $data, TRUE);
+		$this->load->view('web/base', $data);
+	}
+
+	public function mapping_motor()
+	{
+		$data['data'] = $this->peta_klaster->read(array('jenis' => 'pencurian-motor'))->result();
+		$data['content'] = $this->load->view('web/mapping', $data, TRUE);
+		$this->load->view('web/base', $data);
+	}
+
+	public function mapping_ringan()
+	{
+		$data['data'] = $this->peta_klaster->read(array('jenis' => 'pencurian-ringan'))->result();
+		$data['content'] = $this->load->view('web/mapping', $data, TRUE);
 		$this->load->view('web/base', $data);
 	}
 }

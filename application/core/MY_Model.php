@@ -92,6 +92,12 @@ class MY_Model extends \CI_Model
 		$this->table = $table;
 	}
 
+	public function truncate()
+	{
+		$this->db->from($this->table);
+		return $this->db->truncate();
+	}
+
 	/**
 	 * Create data
 	 *

@@ -10,9 +10,8 @@
 		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/') ?>" class="btn btn-<?= empty($jenis)?'success':'primary' ?>">Semua Data</a>
 		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/pencurian-motor') ?>" class="btn btn-<?= $jenis == 'pencurian-motor'?'success':'primary' ?>">Pencurian Motor</a>
 		<a href="<?= base_url($this->router->fetch_class().'/kmeans_clustering/execute/pencurian-ringan') ?>" class="btn btn-<?= $jenis == 'pencurian-ringan'?'success':'primary' ?>">Pencurian Ringan</a>
+		<a class="btn btn-info pull-right" data-toggle="modal" data-target="#modal-setup">Pengaturan</a>
 		<p>
-			<br>
-			<!-- <a class="btn btn-info">Pilih Centroid</a> -->
 		</p>
 	</div>
 	<div class="box">
@@ -42,6 +41,49 @@
 		</div>
 	</div>
 </section>
+
+<div class="modal modal-default fade" id="modal-setup">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="<?= base_url($this->router->fetch_class().'/'.$this->router->fetch_method().'/'.$this->uri->segment(3).'/'.$this->uri->segment(4)) ?>">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Pengaturan Klasterisasi - Pemilihan Centroid (Titik Pusat)</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<th>#</th>
+							<th>No</th>
+							<th>Nomor Surat</th>
+							<th>Tanggal</th>
+							<th>Jenis</th>
+							<th>Desa</th>
+							<th>Kerugian Nominal</th>
+						</thead>
+						<tbody>
+							<?php foreach ($data as $key => $value):?>
+								<tr>
+									<td><input type="checkbox" class="centroids" name="centroid[]" value="<?= $key ?>"></td>
+									<td><?= $key+1 ?></td>
+									<td><?= $value->nomor_surat ?></td>
+									<td><?= nice_date($value->tanggal, 'd-m-Y') ?></td>
+									<td><?= $value->jenis == 'pencurian-motor'?'Pencurian Sepeda Motor':'Pencurian Ringan' ?></td>
+									<td><?= $this->desa->read(array('id' => $value->desa))->row()->nama ?></td>
+									<td><?= $value->kerugian_nominal ?></td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Tutup</button>
+					<button type="submit" class="btn btn-primary">Proses</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 <section class="content container-fluid">
 	<div class="box">
@@ -165,6 +207,75 @@
 				</div>
 				<?php
 			}
+
+			$last_cluster = end($result['clusters']);
+
+			if (!empty($this->uri->segment(4)))
+			{
+				$jenis = $this->uri->segment(4);
+			}
+			else
+			{
+				$jenis = 'global';
+			}
+
+			foreach ($last_cluster as $group => $last)
+			{
+				foreach ($last as $last_key => $last_data)
+				{
+					if ($group == 0)
+					{
+						$find = $this->peta_klaster->read(array(
+							'jenis' => $jenis,
+							'level' => 'tinggi',
+							'laporan' => $data[$last_key]->id
+						))->num_rows();
+
+						if ($find < 1)
+						{
+							$this->peta_klaster->create(array(
+								'jenis' => $jenis,
+								'level' => 'tinggi',
+								'laporan' => $data[$last_key]->id
+							));
+						}
+					}
+					elseif ($group == 1)
+					{
+						$find = $this->peta_klaster->read(array(
+							'jenis' => $jenis,
+							'level' => 'sedang',
+							'laporan' => $data[$last_key]->id
+						))->num_rows();
+
+						if ($find < 1)
+						{
+							$this->peta_klaster->create(array(
+								'jenis' => $jenis,
+								'level' => 'sedang',
+								'laporan' => $data[$last_key]->id
+							));
+						}
+					}
+					else
+					{
+						$find = $this->peta_klaster->read(array(
+							'jenis' => $jenis,
+							'level' => 'rendah',
+							'laporan' => $data[$last_key]->id
+						))->num_rows();
+
+						if ($find < 1)
+						{
+							$this->peta_klaster->create(array(
+								'jenis' => $jenis,
+								'level' => 'rendah',
+								'laporan' => $data[$last_key]->id
+							));
+						}
+					}
+				}
+			}
 			?>
 			<div class="row">
 				<div class="col-lg-12 openstreetmap_large" id="openstreetmap"></div>
@@ -271,3 +382,23 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+var selected = [];
+var $checks = $('.centroids').change(function () {
+	console.log($(this).val())
+	if ($checks.filter(":checked").length <= 2)
+	{
+		$checks.not(":checked").prop("disabled", false);
+	}
+	else
+	{
+		$checks.not(":checked").prop("disabled", true);
+		$('.centroids input:checked').each(function() {
+			selected.push($(this).val());
+		});
+	}
+
+	console.log(selected)
+});
+</script>

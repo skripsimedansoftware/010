@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2022 at 10:20 AM
+-- Generation Time: Mar 16, 2022 at 12:37 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -40,15 +40,15 @@ CREATE TABLE `desa` (
 --
 
 INSERT INTO `desa` (`id`, `nama`, `lat`, `lon`, `sha1`) VALUES
-(1, 'Desa Aek Batu', NULL, NULL, '947bfa459d42d0fcebf0581245dc09bd0ae71f09'),
-(2, 'Desa Asam Jawa', NULL, NULL, 'e586812d341fa69548378982b0dc47e6aa1b80f9'),
-(3, 'Desa Aek Raso', NULL, NULL, '6d7676b5f5c1d6340033132f253c948d3897e147'),
-(4, 'Desa Rasau', NULL, NULL, '0389e92a1cd71f463d3ac233b5cd5288a0911382'),
-(5, 'Desa Torganda', NULL, NULL, '6b8ae275f0a0d3313e82198575c2020ab923947e'),
-(6, 'Desa Bagai', NULL, NULL, '9cfaeb63542680ace182652014660736428fdea4'),
-(7, 'Desa Sei Meranti', NULL, NULL, '9368abee7593a702234acfc740c527c7ba51bebf'),
-(8, 'Desa Torgamba', NULL, NULL, '04b50170e2e981362d76aa73eb60985ddad8fedf'),
-(9, 'Desa Parungan', NULL, NULL, '5a47a18126cb7bbdd074a15512aabb0a34b82a22');
+(1, 'Desa Aek Batu', 1.8592437631312426, 100.14937694324749, '947bfa459d42d0fcebf0581245dc09bd0ae71f09'),
+(2, 'Desa Asam Jawa', 1.8691948533411589, 100.12155863864363, 'e586812d341fa69548378982b0dc47e6aa1b80f9'),
+(3, 'Desa Aek Raso', 1.895959573888572, 100.08544921875001, '6d7676b5f5c1d6340033132f253c948d3897e147'),
+(4, 'Desa Rasau', 1.8746850858839066, 100.06347656250001, '0389e92a1cd71f463d3ac233b5cd5288a0911382'),
+(5, 'Desa Torganda', 1.8746850858839066, 100.20973205566408, '6b8ae275f0a0d3313e82198575c2020ab923947e'),
+(6, 'Desa Bagai', 1.8599300470192741, 100.21350860595705, '9cfaeb63542680ace182652014660736428fdea4'),
+(7, 'Desa Sei Meranti', 1.8218408903231045, 100.0408172607422, '9368abee7593a702234acfc740c527c7ba51bebf'),
+(8, 'Desa Torgamba', 1.81840939496569, 100.11909484863281, '04b50170e2e981362d76aa73eb60985ddad8fedf'),
+(9, 'Desa Parungan', 1.785525689300134, 100.20904541015626, '5a47a18126cb7bbdd074a15512aabb0a34b82a22');
 
 -- --------------------------------------------------------
 
@@ -230,6 +230,19 @@ INSERT INTO `laporan-kriminal` (`id`, `nomor_surat`, `tanggal`, `jenis`, `desa`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `peta_klaster`
+--
+
+CREATE TABLE `peta_klaster` (
+  `id` int(4) NOT NULL,
+  `jenis` enum('global','pencurian-motor','pencurian-ringan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `level` enum('tinggi','sedang','rendah') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `laporan` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tkp`
 --
 
@@ -355,6 +368,12 @@ ALTER TABLE `laporan-kriminal`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `peta_klaster`
+--
+ALTER TABLE `peta_klaster`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tkp`
 --
 ALTER TABLE `tkp`
@@ -399,6 +418,12 @@ ALTER TABLE `jalan`
 --
 ALTER TABLE `laporan-kriminal`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `peta_klaster`
+--
+ALTER TABLE `peta_klaster`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tkp`

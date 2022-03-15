@@ -1,6 +1,3 @@
-# Codeigniter Starter - Skripsi Project :coffee:
+# Pemetaan Tindak Kriminal Menggunakan Algoritma K-Means Cluster :coffee:
 
-## Note!!
-
-- Change email config & reset password email from
-- untrack config `git update-index --assume-unchanged application/config/database.php application/config/email.php`
+> Supported by [Agung Dirgantara](https://github.com/agoenks29D)
