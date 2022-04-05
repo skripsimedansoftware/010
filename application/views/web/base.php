@@ -45,12 +45,18 @@
 			height: 350px;
 			background: #f4f4f4;
 		}
+
 		.openstreetmap_large {
 			height: 400px;
 			width: 60%;
 			background: #f4f4f4;
 			border: 2px solid green;
 		}
+
+		.skin-red .main-header .navbar {
+			background-color: #bb1369;
+		}
+
 		</style>
 	</head>
 	<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
