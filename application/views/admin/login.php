@@ -55,11 +55,8 @@
 				<?php echo form_error('password', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="row" style="margin-top: -4%;">
-				<div class="col-lg-6 col-xs-12">
-					<button type="submit" class="btn btn-primary btn-block btn-flat">Masuk <i class="fa fa-sign-in"></i></button>
-				</div>
-				<div class="col-lg-6 col-xs-12">
-					<a href="<?php echo base_url('admin/register') ?>" class="btn btn-default btn-block btn-flat"><i class="fa fa-users"></i> Mendaftar</a>
+				<div class="col-lg-12 col-xs-12">
+					<button type="submit" class="btn btn-success btn-block btn-flat">Masuk <i class="fa fa-sign-in"></i></button>
 				</div>
 			</div>
 		</form>

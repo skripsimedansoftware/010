@@ -72,6 +72,136 @@
 				</ul>
 			</div>
 		</div>
+		<div class="row">
+			<?php
+			$high = array_map(function($data) {
+				return ($data->level == 'tinggi') ? $data : FALSE;
+			}, $data);
+
+			$high = array_filter($high);
+
+			$medium = array_map(function($data) {
+				return ($data->level == 'sedang') ? $data : FALSE;
+			}, $data);
+
+			$medium = array_filter($medium);
+
+			$low = array_map(function($data) {
+				return ($data->level == 'rendah') ? $data : FALSE;
+			}, $data);
+
+			$low = array_filter($low);
+			?>
+			<div class="box">
+				<div class="box-body">
+					<div class="col-lg-4">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th colspan="4" class="text-center"><span style="color: #ff1e0a;">Tinggi</span></th>
+								</tr>
+								<th>#</th>
+								<th>Laporan</th>
+								<th>Desa</th>
+								<th>Kerugian</th>
+							</thead>
+							<tbody>
+								<?php 
+								$i = 1;
+								foreach ($high as $value) :
+								$laporan = $this->laporan_kriminal->read(array('id' => $value->laporan));
+								$laporan = $laporan->row_array();
+								$desa = $this->desa->read(array('id' => $laporan['desa']));
+								$desa = $desa->row_array();
+								?>
+									<tr>
+										<td>
+											<?= $i ?>
+										</td>
+										<td><?= $laporan['jenis'] == 'pencurian-motor' ? 'Pencurian Motor' : 'Pencurian Ringan' ?></td>
+										<td><?= $desa['nama'] ?></td>
+										<td>Rp. <?= number_format($laporan['kerugian_nominal'], 0, ',', '.') ?></td>
+									</tr>
+								<?php 
+								$i++;
+								endforeach;
+								?>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-4">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th colspan="4" class="text-center"><span style="color: #ff470a;">Sedang</span></th>
+								</tr>
+								<th>#</th>
+								<th>Laporan</th>
+								<th>Desa</th>
+								<th>Kerugian</th>
+							</thead>
+							<tbody>
+								<?php 
+								$i = 1;
+								foreach ($medium as $value) :
+								$laporan = $this->laporan_kriminal->read(array('id' => $value->laporan));
+								$laporan = $laporan->row_array();
+								$desa = $this->desa->read(array('id' => $laporan['desa']));
+								$desa = $desa->row_array();
+								?>
+									<tr>
+										<td>
+											<?= $i ?>
+										</td>
+										<td><?= $laporan['jenis'] == 'pencurian-motor' ? 'Pencurian Motor' : 'Pencurian Ringan' ?></td>
+										<td><?= $desa['nama'] ?></td>
+										<td>Rp. <?= number_format($laporan['kerugian_nominal'], 0, ',', '.') ?></td>
+									</tr>
+								<?php 
+								$i++;
+								endforeach;
+								?>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-4">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th colspan="4" class="text-center"><span style="color: #2f44fa;">Rendah</span></th>
+								</tr>
+								<th>#</th>
+								<th>Laporan</th>
+								<th>Desa</th>
+								<th>Kerugian</th>
+							</thead>
+							<tbody>
+								<?php 
+								$i = 1;
+								foreach ($low as $value) :
+								$laporan = $this->laporan_kriminal->read(array('id' => $value->laporan));
+								$laporan = $laporan->row_array();
+								$desa = $this->desa->read(array('id' => $laporan['desa']));
+								$desa = $desa->row_array();
+								?>
+									<tr>
+										<td>
+											<?= $i ?>
+										</td>
+										<td><?= $laporan['jenis'] == 'pencurian-motor' ? 'Pencurian Motor' : 'Pencurian Ringan' ?></td>
+										<td><?= $desa['nama'] ?></td>
+										<td>Rp. <?= number_format($laporan['kerugian_nominal'], 0, ',', '.') ?></td>
+									</tr>
+								<?php 
+								$i++;
+								endforeach;
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 	<!-- /.content -->
 </div>

@@ -148,7 +148,6 @@ desired effect
 				<li class="header">MENU</li>
 				<!-- Optionally, you can add icons to the links -->
 				<li class="<?= $this->router->fetch_method() == 'index'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
-				<li class="<?= $this->router->fetch_method() == 'laporan_kriminal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_kriminal') ?>"><i class="fa fa-file"></i> <span>Laporan Kriminal</span></a></li>
 				<li class="treeview <?= in_array($this->router->fetch_method(), ['desa', 'dusun', 'jalan', 'tkp'])?'active':'' ?>">
 					<a href="#"><i class="fa fa-database"></i> <span>Data</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -160,6 +159,7 @@ desired effect
 						<li class="<?= $this->router->fetch_method() == 'tkp'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/tkp') ?>">TKP</a></li>
 					</ul>
 				</li>
+				<li class="<?= $this->router->fetch_method() == 'laporan_kriminal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/laporan_kriminal') ?>"><i class="fa fa-file"></i> <span>Laporan Kriminal</span></a></li>
 				<li class="treeview <?= $this->router->fetch_method() == 'kmeans_clustering'?'active':'' ?>">
 					<a href="#"><i class="fa fa-sitemap"></i> <span>K-Means</span>
 						<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
