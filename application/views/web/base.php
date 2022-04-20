@@ -98,7 +98,7 @@
 			<footer class="main-footer">
 				<div class="container">
 					<div class="pull-right hidden-xs">
-						<b>Calon Sarjana S.Kom</b> - Dinda Budiarti
+						<b>Skripsi</b> - Dinda Budiarti
 					</div>
 					<strong>Copyright &copy; <?= date('Y') ?> <a href="https://uinsu.ac.id">Universitas Negeri Sumatera Utara</a>.</strong>
 				</div>
